@@ -1,0 +1,16 @@
+# Unity
+Library/
+Temp/
+Obj/
+Build/
+BuildSettings/
+UserSettings/
+.vs/
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.user
+*.userosscache
+*.sln
+*.swp
