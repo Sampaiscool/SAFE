@@ -3,44 +3,87 @@ using UnityEngine.UI;
 
 public class SystemDevices : MonoBehaviour
 {
-    // Direct references to the three devices
+    // Directe verwijzingen naar de drie apparaten
     public GameObject device1;
     public GameObject device2;
     public GameObject device3;
 
-    // Corruption image and original image for each device
+    // Afbeeldingen voor corruptie en originele staat
     public Sprite errorImage;
     public Sprite originalImage;
 
-    // Individual corruption status for each device
+    // Individuele corruptiestatus voor elk apparaat
     private bool isDevice1Corrupted;
     private bool isDevice2Corrupted;
     private bool isDevice3Corrupted;
 
-    void Start()
+    void Awake()
     {
-        // Initialize the corruption status as false
+        // Initialiseer de corruptiestatus als false
         isDevice1Corrupted = false;
         isDevice2Corrupted = false;
         isDevice3Corrupted = false;
 
-        // Optionally, you can set the initial device states to the original images
+        // Stel de initiële afbeeldingen in
         SetDeviceImage(device1, originalImage);
         SetDeviceImage(device2, originalImage);
         SetDeviceImage(device3, originalImage);
     }
 
-    // Method to corrupt a random device (1 to 3 devices)
+    /// <summary>
+    /// Methode om de corruptie voor device 1 te herstellen.
+    /// Deze methode wordt direct aan de knop van device 1 gekoppeld in de Unity Editor.
+    /// </summary>
+    public void ResetDevice1()
+    {
+        if (isDevice1Corrupted)
+        {
+            SetDeviceImage(device1, originalImage);
+            isDevice1Corrupted = false;
+            Debug.Log("Device 1 hersteld.");
+        }
+    }
+
+    /// <summary>
+    /// Methode om de corruptie voor device 2 te herstellen.
+    /// Deze methode wordt direct aan de knop van device 2 gekoppeld in de Unity Editor.
+    /// </summary>
+    public void ResetDevice2()
+    {
+        if (isDevice2Corrupted)
+        {
+            SetDeviceImage(device2, originalImage);
+            isDevice2Corrupted = false;
+            Debug.Log("Device 2 hersteld.");
+        }
+    }
+
+    /// <summary>
+    /// Methode om de corruptie voor device 3 te herstellen.
+    /// Deze methode wordt direct aan de knop van device 3 gekoppeld in de Unity Editor.
+    /// </summary>
+    public void ResetDevice3()
+    {
+        if (isDevice3Corrupted)
+        {
+            SetDeviceImage(device3, originalImage);
+            isDevice3Corrupted = false;
+            Debug.Log("Device 3 hersteld.");
+        }
+    }
+
+    // Methode om willekeurige apparaten te corrumperen
     public void CorruptDevices(int amount)
     {
-        // Reset corruption status
+        // Alle apparaten terugzetten naar de originele staat voor een nieuwe corruptie
         isDevice1Corrupted = false;
         isDevice2Corrupted = false;
         isDevice3Corrupted = false;
+        SetDeviceImage(device1, originalImage);
+        SetDeviceImage(device2, originalImage);
+        SetDeviceImage(device3, originalImage);
 
-        // Corrupt devices
         int corruptedCount = 0;
-
         while (corruptedCount < amount)
         {
             int randomDeviceIndex = Random.Range(1, 4);
@@ -52,7 +95,6 @@ public class SystemDevices : MonoBehaviour
                     {
                         isDevice1Corrupted = true;
                         SetDeviceImage(device1, errorImage);
-                        AttachResetButton(device1, ResetDevice1);
                         corruptedCount++;
                     }
                     break;
@@ -62,7 +104,6 @@ public class SystemDevices : MonoBehaviour
                     {
                         isDevice2Corrupted = true;
                         SetDeviceImage(device2, errorImage);
-                        AttachResetButton(device2, ResetDevice2);
                         corruptedCount++;
                     }
                     break;
@@ -72,7 +113,6 @@ public class SystemDevices : MonoBehaviour
                     {
                         isDevice3Corrupted = true;
                         SetDeviceImage(device3, errorImage);
-                        AttachResetButton(device3, ResetDevice3);
                         corruptedCount++;
                     }
                     break;
@@ -80,11 +120,10 @@ public class SystemDevices : MonoBehaviour
         }
     }
 
-    // Method to set the device image (original or error image)
+    // Hulp-methode om de afbeelding van een apparaat in te stellen
     private void SetDeviceImage(GameObject device, Sprite image)
     {
         if (device == null) return;
-
         var deviceImage = device.GetComponent<Image>();
         if (deviceImage != null)
         {
@@ -92,48 +131,13 @@ public class SystemDevices : MonoBehaviour
         }
     }
 
-    // Method to attach a reset button listener
-    private void AttachResetButton(GameObject device, UnityEngine.Events.UnityAction action)
-    {
-        var deviceButton = device.GetComponentInChildren<Button>();
-        if (deviceButton != null)
-        {
-            deviceButton.onClick.RemoveAllListeners(); // Remove any existing listeners
-            deviceButton.onClick.AddListener(action); // Add the reset action
-        }
-        else
-        {
-            Debug.LogError("No Button component found on device: " + device.name);
-        }
-    }
-
-    // Reset the corruption for device 1
-    private void ResetDevice1()
-    {
-        SetDeviceImage(device1, originalImage);
-        isDevice1Corrupted = false;
-    }
-
-    // Reset the corruption for device 2
-    private void ResetDevice2()
-    {
-        SetDeviceImage(device2, originalImage);
-        isDevice2Corrupted = false;
-    }
-
-    // Reset the corruption for device 3
-    private void ResetDevice3()
-    {
-        SetDeviceImage(device3, originalImage);
-        isDevice3Corrupted = false;
-    }
-
-    // Method to check if all devices are corrupted and handle the game over state
+    // De HeatAndCorruptionCheck methode blijft hetzelfde
     public void HeatAndCorruptionCheck()
     {
         if (isDevice1Corrupted || isDevice2Corrupted || isDevice3Corrupted)
         {
-            Debug.Log("Player Lost the game!");
+            Debug.Log("Speler heeft verloren!");
+            // Je kunt hier verdere game over logica toevoegen
         }
     }
 }
