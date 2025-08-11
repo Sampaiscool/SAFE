@@ -136,8 +136,7 @@ public class EyeControl : MonoBehaviour
         }
         else if (command.ToLower() == "check heat")
         {
-            commandHistory += locationString + "Current heat:\n";
-            commandHistory += locationString + "C" + GameManager.Instance.currentHeat + "\n";
+            commandHistory += locationString + "Current heat: C" + GameManager.Instance.currentHeat + "\n";
         }
         else if (command.ToLower() == "zero")
         {
@@ -173,7 +172,6 @@ public class EyeControl : MonoBehaviour
                 // Split the command into parts
                 string[] parts = command.Split(' ');
 
-                // Expecting 3 parts: "decode", "unlock", [application_name], [ID]
                 if (parts.Length == 4)
                 {
                     string appName = parts[2];  // Application name (3rd part)

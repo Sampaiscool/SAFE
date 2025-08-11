@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9f6ada3853d1d649aae338f2843560e, type: 3}
   m_Name: Users
   m_EditorClassIdentifier: 
-  locationName: 
+  locationName: Users
   locationDescription: 
   subLocations: []
   availableApplications: []

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b322773c97e7f904c81beac3a201a783, type: 3}
+  m_Name: Alaf'M'Madah
+  m_EditorClassIdentifier: 
+  itemName: Alaf 'M' Madah
+  itemDescription: "\"Alaf 'M' Madah, the visionary genius behind EYE\u2019s most
+    innovative advancements, was a true pioneer in the field of digital technology.
+    In 2031, his groundbreaking work in artificial intelligence and digital consciousness
+    led to the creation of a revolutionary prototype\u2014a personal assistant capable
+    of learning and adapting, embedded directly into the heart of every personal
+    computer. This innovative clone technology was a game-changer, providing humanity
+    with a new way to automate mundane tasks and enhance productivity.\n\nThrough
+    his dedication to improving the world, Alaf sought to create a safer, more efficient
+    digital future. His dream was simple: to make the world a better place by reducing
+    the burden of routine work on humans, allowing them more freedom to focus on
+    creative and meaningful endeavors. This noble vision, however, was cut short
+    by his untimely passing.\n\nEYE is proud to carry on his legacy. While Alaf\u2019s
+    personal contributions were instrumental in developing the core of our systems,
+    it is thanks to EYE that his research has reached its full potential. We took
+    his ideas and transformed them into a revolutionary platform that serves millions
+    of people, keeping their online lives secure and free from threats.\n\nThough
+    Alaf was unaware of the full scope of his creation's potential impact, he supported
+    our mission to bring safety and innovation to the world. His final words of encouragement
+    still resonate with us today: 'The future is bright, and with the right technology,
+    we will be free to explore it.'\n\nAs you continue your journey, V104.2, remember
+    that you carry forward Alaf's vision. You are part of a greater mission\u2014a
+    mission that is making the world safer for all.\""
+  isLoreItem: 0

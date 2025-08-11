@@ -7,5 +7,9 @@ using UnityEngine;
 public class ItemSO : ScriptableObject
 {
     public string itemName;
+
+    [TextArea(1, 10)] // (min lines, max lines)
     public string itemDescription;
+
+    public bool isLoreItem;
 }
