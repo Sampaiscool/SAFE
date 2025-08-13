@@ -136,8 +136,7 @@ public class SystemDevices : MonoBehaviour
     {
         if (isDevice1Corrupted || isDevice2Corrupted || isDevice3Corrupted)
         {
-            Debug.Log("Speler heeft verloren!");
-            // Je kunt hier verdere game over logica toevoegen
+            GameManager.Instance.PlayerLost(DeathReason.SystemDevices_CorruptionAndHeat);
         }
     }
 }

@@ -16,12 +16,18 @@ public class EyeControl : MonoBehaviour
     public LocationData startLocation;
     public LocationData currentLocation;    // The currently selected location
 
+    public ItemSO[] items; // List of items available in the Eye Center
+
     public string minigamestring = "";
 
     private LocationData parentLocation;    // Parent location of the current location
     private ApplicationData currentApplication;
 
     public string locationString = "C:> ";   // Location prompt string, to be updated based on location
+
+    private float backspaceTimer = 0.0f;
+    private float backspaceDelay = 0.2f; // Time in seconds to wait between backspace presses
+    private bool isBackspaceHeld = false;  // Flag to check if backspace has been pressed before
 
     private string currentCommand = "";
     private string commandHistory = "";
@@ -42,22 +48,52 @@ public class EyeControl : MonoBehaviour
 
     void Update()
     {
+        // Handle 'Enter' key press
         if (Input.GetKeyDown(KeyCode.Return) && !string.IsNullOrEmpty(currentCommand))
         {
             SubmitCommand(currentCommand);
             currentCommand = "";
         }
 
+        // Handle regular key input (except Return and Backspace)
         if (Input.anyKeyDown && !Input.GetKey(KeyCode.Return) && !Input.GetKey(KeyCode.Backspace))
         {
             currentCommand += Input.inputString;
             UpdateCommandText();
         }
 
+        // Handle backspace with first press being instant, then delay on subsequent presses
         if (Input.GetKey(KeyCode.Backspace) && currentCommand.Length > 0)
         {
-            currentCommand = currentCommand.Substring(0, currentCommand.Length - 1);
-            UpdateCommandText();
+            if (!isBackspaceHeld)
+            {
+                // First backspace press: Instant removal
+                currentCommand = currentCommand.Substring(0, currentCommand.Length - 1);
+                isBackspaceHeld = true;  // Mark that backspace has been pressed
+                UpdateCommandText();
+            }
+            else
+            {
+                // Timer activated for subsequent presses
+                backspaceTimer += Time.deltaTime;  // Increment the timer
+
+                if (backspaceTimer >= backspaceDelay)
+                {
+                    // Only delete one character at a time after the delay
+                    currentCommand = currentCommand.Substring(0, currentCommand.Length - 1);
+                    backspaceTimer = 0.0f; // Reset the timer after backspace action
+                    UpdateCommandText();
+                }
+            }
+        }
+        else
+        {
+            // Reset the backspace state if backspace key is released
+            if (isBackspaceHeld)
+            {
+                isBackspaceHeld = false;
+                backspaceTimer = 0.0f;  // Reset the timer when backspace is released
+            }
         }
     }
 
@@ -98,6 +134,12 @@ public class EyeControl : MonoBehaviour
                 commandHistory += locationString + "Undertaker Commands:\n\n";
                 commandHistory += locationString + "scan - try to scan the application, if succesfull you will enter a minigame\n";
             }
+            else if (currentLocation.locationName == "EYE-CENTER")
+            {
+                commandHistory += locationString + "EYE-CENTER Commands:\n\n";
+                commandHistory += locationString + "item list - Shows available items\n";
+                commandHistory += locationString + "connect information [item_name] - shows you information about said item\n";
+            }
             ScrollToBottom();
         }
         else if (command.ToLower() == "intro")
@@ -128,8 +170,7 @@ public class EyeControl : MonoBehaviour
         }
         else if (command.ToLower() == "check heat")
         {
-            commandHistory += locationString + "Current heat:\n";
-            commandHistory += locationString + "C" + GameManager.Instance.currentHeat + "\n";
+            commandHistory += locationString + "Current heat: C" + GameManager.Instance.currentHeat + "\n";
         }
         else if (command.ToLower() == "zero")
         {
@@ -137,7 +178,7 @@ public class EyeControl : MonoBehaviour
             locationString = "C:> ";
             commandHistory += locationString + "Location back to zero\n";
         }
-        else if(currentLocation.locationName == "Applications")
+        else if (currentLocation.locationName == "Applications")
         {
             if (command.ToLower() == "app list")
             {
@@ -157,7 +198,7 @@ public class EyeControl : MonoBehaviour
             else if (command.ToLower().StartsWith("connect information"))
             {
                 string applicationName = command.Substring(20).Trim();
-                ConnectInformation(applicationName);
+                ConnectInformation(applicationName, "application");
                 ScrollToBottom();
             }
             else if (command.ToLower().StartsWith("decode unlock"))
@@ -165,7 +206,6 @@ public class EyeControl : MonoBehaviour
                 // Split the command into parts
                 string[] parts = command.Split(' ');
 
-                // Expecting 3 parts: "decode", "unlock", [application_name], [ID]
                 if (parts.Length == 4)
                 {
                     string appName = parts[2];  // Application name (3rd part)
@@ -194,7 +234,7 @@ public class EyeControl : MonoBehaviour
                 {
                     commandHistory += locationString + app.applicationName + " is locked\n";
                 }
-                
+
             }
         }
         else if (currentLocation.locationName == "Undertaker")
@@ -206,7 +246,7 @@ public class EyeControl : MonoBehaviour
                 StartCoroutine(HackingProcess("Scanning..."));
             }
             else if (command == minigamestring)
-            { 
+            {
                 if (specificCommand == true)
                 {
                     specificCommand = false;
@@ -225,6 +265,18 @@ public class EyeControl : MonoBehaviour
         }
         else if (currentLocation.locationName == "EYE-CENTER")
         {
+            if (command.ToLower() == "item list")
+            {
+                foreach (var item in items)
+                {
+                    commandHistory += locationString + " -> " + item.itemName + "\n";
+                }
+            }
+            else if (command.ToLower().StartsWith("connect information"))
+            {
+                string itemName = command.Substring(20).Trim();
+                ConnectInformation(itemName, "item");
+            }
 
         }
         else
@@ -232,73 +284,93 @@ public class EyeControl : MonoBehaviour
             commandHistory += locationString + "Command not recognized.\n";
         }
 
-        ScrollToBottom();
-    }
-
-    void DisplayLocations(LocationData location)
-    {
-        commandHistory += locationString + location.locationName + " - " + location.locationDescription + "\n";
-
-        if (location.subLocations.Count > 0)
+        void DisplayLocations(LocationData location)
         {
-            foreach (var subLocation in location.subLocations)
+            commandHistory += locationString + location.locationName + " - " + location.locationDescription + "\n";
+
+            if (location.subLocations.Count > 0)
             {
-                commandHistory += locationString + "  -> " + subLocation.locationName + "\n";
-            }
-        }
-        else
-        {
-            commandHistory += locationString + "No sub-locations available.\n";
-        }
-    }
-
-    void GoToSubLocation(string subLocationName)
-    {
-        LocationData subLocation = currentLocation.subLocations.Find(loc => loc.locationName.ToLower() == subLocationName.ToLower());
-
-        if (subLocation != null)
-        {
-            parentLocation = currentLocation;
-            currentLocation = subLocation;
-
-            commandHistory += locationString + "Entering sub-location: " + currentLocation.locationName + "\n";
-
-            // Remove the trailing space before adding the new location to the path
-            locationString = locationString.Trim() + currentLocation.locationName + "> ";
-
-        }
-        else
-        {
-            commandHistory += locationString + "Sub-location not found.\n";
-        }
-
-        ScrollToBottom();
-    }
-
-    void ConnectInformation(string applicationName)
-    {
-        ApplicationData app = currentLocation.availableApplications.Find(a => a.applicationName.ToLower() == applicationName.ToLower());
-
-        if (app != null)
-        {
-            commandHistory += locationString + "Information about the application:\n";
-            commandHistory += locationString + "Name: " + app.applicationName + "\n";
-            commandHistory += locationString + "Date Created: " + app.dateCreated + "\n";
-            commandHistory += locationString + "Application Id: " + app.applicationId + "\n";
-            commandHistory += locationString + "QuickFlash Id: " + app.QuickFlashId + "\n";
-            if (app.isUnlocked)
-            {
-                commandHistory += locationString + "Unlocked\n";
+                foreach (var subLocation in location.subLocations)
+                {
+                    commandHistory += locationString + "  -> " + subLocation.locationName + "\n";
+                }
             }
             else
             {
-                commandHistory += locationString + "Locked\n";
+                commandHistory += locationString + "No sub-locations available.\n";
             }
         }
-        else
+
+        void GoToSubLocation(string subLocationName)
         {
-            commandHistory += locationString + "Application not found.\n";
+            LocationData subLocation = currentLocation.subLocations.Find(loc => loc.locationName.ToLower() == subLocationName.ToLower());
+
+            if (subLocation != null)
+            {
+                parentLocation = currentLocation;
+                currentLocation = subLocation;
+
+                commandHistory += locationString + "Entering sub-location: " + currentLocation.locationName + "\n";
+
+                // Remove the trailing space before adding the new location to the path
+                locationString = locationString.Trim() + currentLocation.locationName + "> ";
+
+            }
+            else
+            {
+                commandHistory += locationString + "Sub-location not found.\n";
+            }
+
+            ScrollToBottom();
         }
+
+        void ConnectInformation(string name, string informationType)
+        {
+            if (informationType == "application")
+            {
+                ApplicationData app = currentLocation.availableApplications.Find(a => a.applicationName.ToLower() == name.ToLower());
+
+                if (app != null)
+                {
+                    commandHistory += locationString + "Information about the application:\n";
+                    commandHistory += locationString + "Name: " + app.applicationName + "\n";
+                    commandHistory += locationString + "Date Created: " + app.dateCreated + "\n";
+                    commandHistory += locationString + "Application Id: " + app.applicationId + "\n";
+                    commandHistory += locationString + "QuickFlash Id: " + app.QuickFlashId + "\n";
+                    if (app.isUnlocked)
+                    {
+                        commandHistory += locationString + "Unlocked\n";
+                    }
+                    else
+                    {
+                        commandHistory += locationString + "Locked\n";
+                    }
+                }
+                else
+                {
+                    commandHistory += locationString + "Application not found.\n";
+                }
+            }
+            else if (informationType == "item")
+            {
+                ItemSO item = Array.Find(items, i => i.itemName.ToLower() == name.ToLower());
+                if (item != null)
+                {
+                    commandHistory += locationString + "Item Name: " + item.itemName + "\n";
+                    commandHistory += locationString + "Description: " + item.itemDescription + "\n";
+                }
+                else
+                {
+                    commandHistory += locationString + "Item not found.\n";
+                }
+            }
+            else
+            {
+                commandHistory += locationString + "Invalid information type. Use 'application' or 'item'.\n";
+            }
+        }
+
+        ScrollToBottom();
     }
     void DecodeUnlock(string appName, int userProvidedId)
     {
@@ -333,7 +405,13 @@ public class EyeControl : MonoBehaviour
 
     void ScrollToBottom()
     {
+        // If the panel has just been enabled, force the layout update
+        LayoutRebuilder.ForceRebuildLayoutImmediate(scrollRect.content);
+
+        // Update the canvas to ensure it reflects any changes to the layout
         Canvas.ForceUpdateCanvases();
+
+        // Scroll to the bottom
         scrollRect.verticalNormalizedPosition = 0;
     }
 

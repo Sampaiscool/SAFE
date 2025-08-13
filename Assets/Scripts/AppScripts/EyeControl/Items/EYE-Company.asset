@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b322773c97e7f904c81beac3a201a783, type: 3}
+  m_Name: EYE-Company
+  m_EditorClassIdentifier: 
+  itemName: EYE-Company
+  itemDescription: "\"Welcome to the heart of progress, V104.2. You are now part
+    of the proud legacy of EYE\u2014the most trusted name in digital security and
+    innovation. Established in 2031 by the visionary Alaf 'M' Madah, EYE revolutionized
+    the world of technology with the creation of the first truly secure personal
+    computing experience. What began as a research-focused initiative to improve
+    digital consciousness has now blossomed into a global movement.\n\nAt EYE, we
+    understand the importance of safeguarding your data, your memories, and your
+    very existence. We don\u2019t just provide hardware\u2014we provide peace of
+    mind. Our systems are built to protect you from the ever-present dangers of the
+    digital age, ensuring that no harmful interference, no rogue program, can ever
+    touch you.\n\nThe world outside has come to rely on our technology. With the
+    launch of our newest line of personal computers, EYE has made it possible for
+    millions to safely navigate the digital world, connecting them securely to everything
+    they need. We have been instrumental in shaping a future where humans can live,
+    work, and play without fear, thanks to our unmatched systems.\n\nAs a proud product
+    of EYE, you are a testament to the power of progress. Your task is simple: help
+    maintain this secure world, and in return, you\u2019ll help lead humanity into
+    a future free from the risks of digital chaos. We trust that you will continue
+    to serve as an example of efficiency, integrity, and excellence, just as EYE
+    has always intended.\""
+  isLoreItem: 1
