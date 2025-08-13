@@ -25,6 +25,10 @@ public class EyeControl : MonoBehaviour
 
     public string locationString = "C:> ";   // Location prompt string, to be updated based on location
 
+    private float backspaceTimer = 0.0f;
+    private float backspaceDelay = 0.2f; // Time in seconds to wait between backspace presses
+    private bool isBackspaceHeld = false;  // Flag to check if backspace has been pressed before
+
     private string currentCommand = "";
     private string commandHistory = "";
     private bool isCursorVisible = true;
@@ -44,22 +48,52 @@ public class EyeControl : MonoBehaviour
 
     void Update()
     {
+        // Handle 'Enter' key press
         if (Input.GetKeyDown(KeyCode.Return) && !string.IsNullOrEmpty(currentCommand))
         {
             SubmitCommand(currentCommand);
             currentCommand = "";
         }
 
+        // Handle regular key input (except Return and Backspace)
         if (Input.anyKeyDown && !Input.GetKey(KeyCode.Return) && !Input.GetKey(KeyCode.Backspace))
         {
             currentCommand += Input.inputString;
             UpdateCommandText();
         }
 
+        // Handle backspace with first press being instant, then delay on subsequent presses
         if (Input.GetKey(KeyCode.Backspace) && currentCommand.Length > 0)
         {
-            currentCommand = currentCommand.Substring(0, currentCommand.Length - 1);
-            UpdateCommandText();
+            if (!isBackspaceHeld)
+            {
+                // First backspace press: Instant removal
+                currentCommand = currentCommand.Substring(0, currentCommand.Length - 1);
+                isBackspaceHeld = true;  // Mark that backspace has been pressed
+                UpdateCommandText();
+            }
+            else
+            {
+                // Timer activated for subsequent presses
+                backspaceTimer += Time.deltaTime;  // Increment the timer
+
+                if (backspaceTimer >= backspaceDelay)
+                {
+                    // Only delete one character at a time after the delay
+                    currentCommand = currentCommand.Substring(0, currentCommand.Length - 1);
+                    backspaceTimer = 0.0f; // Reset the timer after backspace action
+                    UpdateCommandText();
+                }
+            }
+        }
+        else
+        {
+            // Reset the backspace state if backspace key is released
+            if (isBackspaceHeld)
+            {
+                isBackspaceHeld = false;
+                backspaceTimer = 0.0f;  // Reset the timer when backspace is released
+            }
         }
     }
 
@@ -243,13 +277,11 @@ public class EyeControl : MonoBehaviour
                 string itemName = command.Substring(20).Trim();
                 ConnectInformation(itemName, "item");
             }
-            else
-            {
-                commandHistory += locationString + "Command not recognized.\n";
-            }
 
-            ScrollToBottom();
-            ScrollToBottom();
+        }
+        else
+        {
+            commandHistory += locationString + "Command not recognized.\n";
         }
 
         void DisplayLocations(LocationData location)
@@ -337,6 +369,8 @@ public class EyeControl : MonoBehaviour
                 commandHistory += locationString + "Invalid information type. Use 'application' or 'item'.\n";
             }
         }
+
+        ScrollToBottom();
     }
     void DecodeUnlock(string appName, int userProvidedId)
     {
@@ -371,7 +405,13 @@ public class EyeControl : MonoBehaviour
 
     void ScrollToBottom()
     {
+        // If the panel has just been enabled, force the layout update
+        LayoutRebuilder.ForceRebuildLayoutImmediate(scrollRect.content);
+
+        // Update the canvas to ensure it reflects any changes to the layout
         Canvas.ForceUpdateCanvases();
+
+        // Scroll to the bottom
         scrollRect.verticalNormalizedPosition = 0;
     }
 
