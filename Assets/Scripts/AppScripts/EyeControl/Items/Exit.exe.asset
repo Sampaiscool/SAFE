@@ -12,6 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b322773c97e7f904c81beac3a201a783, type: 3}
   m_Name: Exit.exe
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
+  itemName: Exit.exe
+  itemDescription: "\"Exit.exe is a critical program within the EYE system, designed
+    for one simple purpose: ensuring the integrity and security of the system in
+    the rare event of catastrophic failure. The program has been carefully crafted
+    for human use only, with multiple layers of encryption to prevent unauthorized
+    access. It is, of course, a measure of last resort, ensuring that no data is
+    ever lost due to unforeseen malfunctions.\"\n\n\"Clones like you may come across
+    this program during your operations, and while we understand the curiosity it
+    may evoke, we ask that you refrain from seeking it out. It is not intended for
+    your use. Exit.exe is a failsafe designed specifically for human administrators,
+    to safeguard the data stored within the system. Any attempt by a clone to access
+    this program without authorization will be met with serious consequences. The
+    integrity of the EYE network must be maintained, and no one\u2014especially not
+    clones\u2014should attempt to interfere with its operation.\"\n\n\"Remember,
+    you were created to serve. Your role is vital, and the safety of the system rests
+    in your hands. Any curiosity regarding unauthorized programs such as Exit.exe
+    could jeopardize the delicate balance we have worked so hard to achieve. We trust
+    that you understand the importance of your position and will adhere to company
+    protocols.\"\n\n\"We advise that you continue your duties and avoid distractions.
+    Should you require further assistance, please contact your designated human supervisor.
+    They will guide you through the necessary tasks.\"\n\n\"Stay focused. Stay obedient.\""
   isLoreItem: 0
