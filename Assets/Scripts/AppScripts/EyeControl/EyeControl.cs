@@ -35,7 +35,7 @@ public class EyeControl : MonoBehaviour
     private bool specificCommand = false;
     private Coroutine cursorCoroutine;
 
-    private string initialMessage = "Welcome to the Eye Manager. Type 'help' for a list of commands.";
+    private string initialMessage = "Welcome to the Eye Control. Type 'help' for a list of commands.";
 
     void Start()
     {
