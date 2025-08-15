@@ -38,8 +38,11 @@ public class PopupManager : MonoBehaviour
         // Add listener based on the app name
         if (glitchedPopupName == AppNames.SystemDevices)
         {
-            
             popupButton.onClick.AddListener(() => appManager.OpenSystemDevices());
+        }
+        else if (glitchedPopupName == AppNames.Jenuve)
+        {
+            popupButton.onClick.AddListener(() => appManager.OpenJenuve());
         }
     }
 

@@ -4,5 +4,6 @@ using UnityEngine;
 
 public enum DeathReason
 {
-    SystemDevices_CorruptionAndHeat
+    SystemDevices_CorruptionAndHeat,
+    Jenuve_IncorrectCell,
 }

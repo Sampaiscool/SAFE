@@ -189,12 +189,19 @@ public class GameManager : MonoBehaviour
         currentHeat = minimalHeat;
     }
 
+    /// <summary>
+    /// Called when the player loses
+    /// </summary>
+    /// <param name="reason">The Reason the player lost (enum)</param>
     public void PlayerLost(DeathReason reason)
     {
         switch (reason)
         {
             case DeathReason.SystemDevices_CorruptionAndHeat:
                 Debug.Log("Player lost due to heat and corruption.");
+                break;
+            case DeathReason.Jenuve_IncorrectCell:
+                Debug.Log("Player lost due to being on the incorrect cell inside Jenuva");
                 break;
             default:
                 break;
