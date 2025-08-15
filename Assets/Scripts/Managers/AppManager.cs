@@ -5,6 +5,7 @@ public class AppManager : MonoBehaviour
     public GameObject eyemanagerPanel;
     public GameObject ClockPanel;
     public GameObject SystemDevicesPanel;
+    public GameObject JenuvePanel;
 
     // This method is called to open the app
     public void OpenApp(AppSO appData, AppNames AppName)
@@ -20,6 +21,9 @@ public class AppManager : MonoBehaviour
             case AppNames.SystemDevices:
                 OpenSystemDevices();
                 break;
+            case AppNames.Jenuve:
+                OpenJenuve();
+                break;
             default:
                 Debug.LogWarning("AppManager Could not find the App Name");
                 break;
@@ -30,6 +34,7 @@ public class AppManager : MonoBehaviour
         eyemanagerPanel.SetActive(false);
         ClockPanel.SetActive(false);
         SystemDevicesPanel.SetActive(false);
+        JenuvePanel.SetActive(false);
     }
 
     public void OpenEyemanager()
@@ -76,5 +81,20 @@ public class AppManager : MonoBehaviour
         CloseOtherApps();
         // Enable the Eyemanager panel
         SystemDevicesPanel.SetActive(false);
+    }
+
+    public void OpenJenuve()
+    {
+        Debug.Log("Opening Jenuve");
+        CloseOtherApps();
+        // Enable the Jenuve panel
+        JenuvePanel.SetActive(true);
+    }
+    public void CloseJenuve()
+    {
+        Debug.Log("Closing Jenuve");
+        CloseOtherApps();
+        // Disable the Jenuve panel
+        JenuvePanel.SetActive(false);
     }
 }

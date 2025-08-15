@@ -11,5 +11,6 @@ public enum AppNames
 {
     Eyemanager,
     Clock,
-    SystemDevices
+    SystemDevices,
+    Jenuve
 }
