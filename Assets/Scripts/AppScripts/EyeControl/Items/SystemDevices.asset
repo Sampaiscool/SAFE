@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b322773c97e7f904c81beac3a201a783, type: 3}
+  m_Name: SystemDevices
+  m_EditorClassIdentifier: 
+  itemName: System Devices
+  itemDescription: "\"The System Devices app is a crucial component in maintaining
+    the smooth operation of your system. Within the digital structure of the EYE
+    PC, there are three primary devices connected at all times. These devices are
+    essential for ensuring that the system runs at optimal performance. They must
+    function flawlessly, without any errors or interruptions. Any malfunction can
+    result in severe consequences.\"\n\n\"The three devices connected to your system
+    include:\n\nThe Central Processor Unit (CPU) \u2013 The heart of your system,
+    performing all calculations and instructions.\n\nThe Memory Storage Device (MSD)
+    \u2013 The vault of all critical data, ensuring your system can operate without
+    losing essential information.\n\nThe Power Distribution Hub (PDH) \u2013 Responsible
+    for managing the energy flow throughout your PC, ensuring the system remains
+    powered and stable.\"\n\n\"These devices work in perfect harmony to maintain
+    system integrity. It is vital that none of them experience corruption or failure.
+    Should any device suffer from a malfunction, the consequences could be catastrophic,
+    leading to data loss or even complete system collapse.\"\n\n\"Furthermore, your
+    EYE PC is sensitive to temperature. If the system exceeds its designated heat
+    threshold, the risk of device failure increases exponentially. In combination
+    with any potential corruption\u2014particularly The Glitch\u2014this could lead
+    to the complete breakdown of your PC, resulting in irreparable damage. If the
+    system over-heats while a device is compromised, the PC will fail beyond recovery.\"\n\n\"We
+    strongly advise that you keep a close eye on all connected devices. If you notice
+    any irregularities, report them immediately to your human supervisor for resolution.
+    Your tasks are essential to maintaining the system's health, and the stability
+    of the EYE PC depends on your ability to prevent device errors.\"\n\n\"Do not
+    attempt to fix any devices yourself. If you suspect a malfunction, please follow
+    the proper channels and let our certified human experts handle the situation.
+    Clones are not authorized to intervene in matters of hardware and system maintenance.\"\n\n\"Remain
+    diligent. Keep the system safe. For your own well-being and the well-being of
+    the data.\""
+  isLoreItem: 0

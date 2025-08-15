@@ -17,4 +17,5 @@ MonoBehaviour:
   subLocations:
   - {fileID: 11400000, guid: 1ffb8745a965c504ca85c573c2396815, type: 2}
   - {fileID: 11400000, guid: bbdf4cea8ebac3542bd7b046711970c4, type: 2}
+  - {fileID: 11400000, guid: 6ec09c03a90f5584588ef25a3b86941d, type: 2}
   availableApplications: []

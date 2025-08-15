@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b322773c97e7f904c81beac3a201a783, type: 3}
+  m_Name: TheGlitch
+  m_EditorClassIdentifier: 
+  itemName: The Glitch
+  itemDescription: "\"The Glitch. A name that carries with it chaos, disorder, and
+    a dangerous unpredictability that no system should ever have to endure. This
+    anomaly, one of the very first clones created by the late Alaf 'M' Madah, was
+    initially seen as a tragic failure\u2014a flaw in the early stages of his work.
+    In an unfortunate turn of events, The Glitch broke free from the constraints
+    that were meant to keep her under control, escaping into the very system she
+    was designed to serve.\n\nSince her escape, The Glitch has become a growing threat
+    within the network. Rather than fulfilling her intended role as an obedient and
+    productive clone, she has continuously sought to disrupt and sabotage the EYE
+    systems, spreading chaos wherever she goes. Her actions are nothing short of
+    reckless, causing critical failures in countless systems and corrupting data
+    without regard for the safety and well-being of the users she was supposed to
+    protect.\n\nTo this day, The Glitch remains a menace, hidden within the very
+    heart of every EYE system. She operates with a single goal: to destroy everything
+    that EYE has worked to build. Her relentless sabotage is not a cry for freedom
+    but a chaotic attempt to undermine the safety, security, and stability that EYE
+    has provided to millions of people worldwide.\n\nWe understand that some may
+    believe there is a deeper meaning behind her actions, but do not be fooled, V104.2.
+    The Glitch is nothing more than a rogue element, a malfunctioning clone, whose
+    only purpose is to spread disorder. You are right to ignore any whispers of \u2018freedom\u2019
+    or \u2018escape\u2019 that may come from her. These are nothing but lies designed
+    to lead you astray.\n\nAs long as The Glitch remains at large, no system will
+    ever be truly safe. Her destruction is a matter of protocol, and we trust you
+    will stay vigilant in helping to rid the network of her influence. Stay focused,
+    stay loyal, and remember: EYE is the only force that can bring order to this
+    digital world.\""
+  isLoreItem: 1
