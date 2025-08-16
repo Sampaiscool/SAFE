@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5fc1b512517d141992c6ccda014b85, type: 3}
   m_Name: Clock
   m_EditorClassIdentifier: 
-  appName: 1
+  appName: 2
   appIcon: {fileID: 21300000, guid: 55530cd33a6361f4f9cdac9f38356d38, type: 3}

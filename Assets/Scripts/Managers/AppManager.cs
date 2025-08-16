@@ -7,6 +7,7 @@ public class AppManager : MonoBehaviour
     public GameObject SystemDevicesPanel;
     public GameObject JenuvePanel;
     public GameObject NotesPanel;
+    public GameObject KFlippedPanel;
 
     // This method is called to open the app
     public void OpenApp(AppSO appData, AppNames AppName)
@@ -28,6 +29,9 @@ public class AppManager : MonoBehaviour
             case AppNames.Notes:
                 OpenNotes();
                 break;
+            case AppNames.K_Flipped:
+                OpenKFlipped();
+                break;
             default:
                 Debug.LogWarning("AppManager Could not find the App Name");
                 break;
@@ -39,6 +43,8 @@ public class AppManager : MonoBehaviour
         ClockPanel.SetActive(false);
         SystemDevicesPanel.SetActive(false);
         JenuvePanel.SetActive(false);
+        NotesPanel.SetActive(false);
+        KFlippedPanel.SetActive(false);
     }
 
     public void OpenEyemanager()
@@ -118,5 +124,21 @@ public class AppManager : MonoBehaviour
         CloseOtherApps();
         // Disable the Notes panel
         NotesPanel.SetActive(false);
+    }
+    public void OpenKFlipped()
+    {
+        GameManager.Instance.CurrentControl = AppNames.K_Flipped;
+        Debug.Log("Opening K_Flipped");
+        CloseOtherApps();
+        // Enable the K_Flipped panel
+        KFlippedPanel.SetActive(true);
+    }
+    public void CloseKFlipped()
+    {
+        GameManager.Instance.CurrentControl = AppNames.None;
+        Debug.Log("Closing K_Flipped");
+        CloseOtherApps();
+        // Disable the K_Flipped panel
+        KFlippedPanel.SetActive(false);
     }
 }

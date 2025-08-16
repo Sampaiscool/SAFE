@@ -14,5 +14,6 @@ public enum AppNames
     Clock,
     Notes,
     SystemDevices,
-    Jenuve
+    Jenuve,
+    K_Flipped,
 }

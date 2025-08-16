@@ -13,10 +13,15 @@ public class GameManager : MonoBehaviour
     public int currentHeat;
     public int maxHeat = 100;
 
-    public Difficulties difficulty = Difficulties.Medium; // Default is Medium
+    /// <summary>
+    /// Enum to represent the current difficulty level of the game.
+    /// </summary>
+    public Difficulties difficulty = Difficulties.Medium;
     private float eventInterval;
 
-    // Store the exit code here
+    /// <summary>
+    /// Code the player needs to add in exit.exe to win the game.
+    /// </summary>
     public string exitCode = "";  // To hold the entire exit.exe code (20 characters)
 
     // Define the characters to be used in the exit code (Uppercase, lowercase, numbers)
@@ -27,7 +32,10 @@ public class GameManager : MonoBehaviour
 
     public GlitchManager glitchManager;
     public SystemDevices systemDevices;
-    
+
+    /// <summary>
+    /// Enum to track the current control being used in the game.
+    /// </summary>
     public AppNames CurrentControl = AppNames.None;
 
     // Flag to track if the game is new

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5fc1b512517d141992c6ccda014b85, type: 3}
   m_Name: Jenuve
   m_EditorClassIdentifier: 
-  appName: 3
+  appName: 5
   appIcon: {fileID: 21300000, guid: d56d51ebf20525948ab038c2362a4dbf, type: 3}

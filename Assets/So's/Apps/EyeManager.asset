@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5fc1b512517d141992c6ccda014b85, type: 3}
   m_Name: EyeManager
   m_EditorClassIdentifier: 
-  appName: 0
+  appName: 1
   appIcon: {fileID: 21300000, guid: ca6ec735dd577eb4f8d9d5db9c0a2c0b, type: 3}
