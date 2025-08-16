@@ -6,4 +6,5 @@ public enum DeathReason
 {
     SystemDevices_CorruptionAndHeat,
     Jenuve_IncorrectCell,
+    KFlipped_NotFinished,
 }

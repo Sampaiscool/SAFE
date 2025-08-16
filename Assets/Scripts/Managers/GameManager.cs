@@ -213,6 +213,9 @@ public class GameManager : MonoBehaviour
             case DeathReason.Jenuve_IncorrectCell:
                 Debug.Log("Player lost due to being on the incorrect cell inside Jenuva");
                 break;
+            case DeathReason.KFlipped_NotFinished:
+                Debug.Log("Player lost due to not finishing the KFlipped minigame.");
+                break;
             default:
                 break;
         }
