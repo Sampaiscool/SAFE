@@ -140,6 +140,11 @@ public class EyeControl : MonoBehaviour
                 commandHistory += locationString + "item list - Shows available items\n";
                 commandHistory += locationString + "connect information [item_name] - shows you information about said item\n";
             }
+            else if (currentLocation.locationName == "Users")
+            {
+                commandHistory += locationString + "Users Commands:\n\n";
+                commandHistory += locationString + "\n";
+            }
             ScrollToBottom();
         }
         else if (command.ToLower() == "intro")

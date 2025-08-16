@@ -53,10 +53,8 @@ public class Notes : MonoBehaviour
 
     void EditNote(NoteUI note)
     {
-        // For simplicity: replace current note text with input field content
         newNoteInput.text = note.text.text;
 
-        // Remove the note so the player can re-add
         DeleteNote(note);
     }
 

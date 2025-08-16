@@ -27,11 +27,13 @@ public class GridFlip : MonoBehaviour
     // Predefined formations (you can tweak these)
     private int[][] formations = new int[][]
     {
-        //new int[] { 12 },                           // center only
-        //new int[] { 6, 7, 8, 11, 13, 16, 17, 18 },  // cross around center
-        //new int[] { 2, 7, 12, 17, 22 },             // vertical line
-        //new int[] { 10, 11, 12, 13, 14 },           // horizontal line
-        new int[] { 2, 6, 12, 18, 22}                 // zigzag line
+        new int[] { 12 },                                                    // center only
+        new int[] { 6, 7, 8, 11, 13, 16, 17, 18 },                           // cross around center
+        new int[] { 2, 7, 12, 17, 22 },                                      // vertical line
+        new int[] { 10, 11, 12, 13, 14 },                                    // horizontal line
+        new int[] { 2, 6, 12, 18, 22},                                       // zigzag line
+        new int[] { 4, 9, 10, 12, 14, 15, 20},                               // short line + center
+        new int [] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24 }         // skips
     };
 
     void Start()
