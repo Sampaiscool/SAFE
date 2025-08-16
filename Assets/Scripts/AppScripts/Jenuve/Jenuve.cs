@@ -78,16 +78,19 @@ public class Jenuve : MonoBehaviour
 
     void HandleInput()
     {
-        int row = playerIndex / 3;
-        int col = playerIndex % 3;
+        if (GameManager.Instance.CurrentControl == AppNames.Jenuve)
+        {
+            int row = playerIndex / 3;
+            int col = playerIndex % 3;
 
-        if (Input.GetKeyDown(KeyCode.W) && row > 0) MovePlayer(playerIndex - 3);
-        if (Input.GetKeyDown(KeyCode.S) && row < 2) MovePlayer(playerIndex + 3);
-        if (Input.GetKeyDown(KeyCode.A) && col > 0) MovePlayer(playerIndex - 1);
-        if (Input.GetKeyDown(KeyCode.D) && col < 2) MovePlayer(playerIndex + 1);
+            if (Input.GetKeyDown(KeyCode.W) && row > 0) MovePlayer(playerIndex - 3);
+            if (Input.GetKeyDown(KeyCode.S) && row < 2) MovePlayer(playerIndex + 3);
+            if (Input.GetKeyDown(KeyCode.A) && col > 0) MovePlayer(playerIndex - 1);
+            if (Input.GetKeyDown(KeyCode.D) && col < 2) MovePlayer(playerIndex + 1);
 
-        if (glitchActive)
-            CheckGlitchCell(); // Check if player steps on glitch cell
+            if (glitchActive)
+                CheckGlitchCell(); // Check if player steps on glitch cell
+        }
     }
 
     void MovePlayer(int newIndex)

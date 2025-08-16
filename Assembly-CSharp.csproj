@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\Managers\PopupManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Enums\AppNames.cs" />
+    <Compile Include="Assets\Scripts\AppScripts\Notes\Notes.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\LocationData.cs" />
     <Compile Include="Assets\Scripts\App.cs" />
   </ItemGroup>

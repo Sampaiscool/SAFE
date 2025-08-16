@@ -6,6 +6,7 @@ public class AppManager : MonoBehaviour
     public GameObject ClockPanel;
     public GameObject SystemDevicesPanel;
     public GameObject JenuvePanel;
+    public GameObject NotesPanel;
 
     // This method is called to open the app
     public void OpenApp(AppSO appData, AppNames AppName)
@@ -23,6 +24,9 @@ public class AppManager : MonoBehaviour
                 break;
             case AppNames.Jenuve:
                 OpenJenuve();
+                break;
+            case AppNames.Notes:
+                OpenNotes();
                 break;
             default:
                 Debug.LogWarning("AppManager Could not find the App Name");
@@ -85,6 +89,7 @@ public class AppManager : MonoBehaviour
 
     public void OpenJenuve()
     {
+        GameManager.Instance.CurrentControl = AppNames.Jenuve;
         Debug.Log("Opening Jenuve");
         CloseOtherApps();
         // Enable the Jenuve panel
@@ -92,9 +97,26 @@ public class AppManager : MonoBehaviour
     }
     public void CloseJenuve()
     {
+        GameManager.Instance.CurrentControl = AppNames.None;
         Debug.Log("Closing Jenuve");
         CloseOtherApps();
         // Disable the Jenuve panel
         JenuvePanel.SetActive(false);
+    }
+    public void OpenNotes()
+    {
+        GameManager.Instance.CurrentControl = AppNames.Notes;
+        Debug.Log("Opening Notes");
+        CloseOtherApps();
+        // Enable the Notes panel
+        NotesPanel.SetActive(true);
+    }
+    public void CloseNotes()
+    {
+        GameManager.Instance.CurrentControl = AppNames.None;
+        Debug.Log("Closing Notes");
+        CloseOtherApps();
+        // Disable the Notes panel
+        NotesPanel.SetActive(false);
     }
 }

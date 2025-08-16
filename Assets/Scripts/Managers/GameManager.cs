@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
 
     public GlitchManager glitchManager;
     public SystemDevices systemDevices;
+    
+    public AppNames CurrentControl = AppNames.None;
 
     // Flag to track if the game is new
     public bool isNewGame = true;

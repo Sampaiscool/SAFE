@@ -9,8 +9,10 @@ using UnityEngine;
 
 public enum AppNames
 {
+    None,
     Eyemanager,
     Clock,
+    Notes,
     SystemDevices,
     Jenuve
 }
