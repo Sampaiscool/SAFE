@@ -375,6 +375,7 @@ public class EyeControl : MonoBehaviour
             }
         }
 
+        commandHistory += locationString + "";
         ScrollToBottom();
     }
     void DecodeUnlock(string appName, int userProvidedId)
