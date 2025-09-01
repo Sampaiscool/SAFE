@@ -16,4 +16,5 @@ public enum AppNames
     SystemDevices,
     Jenuve,
     K_Flipped,
+    MadahsShop,
 }

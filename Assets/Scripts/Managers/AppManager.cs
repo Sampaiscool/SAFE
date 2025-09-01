@@ -8,6 +8,7 @@ public class AppManager : MonoBehaviour
     public GameObject JenuvePanel;
     public GameObject NotesPanel;
     public GameObject KFlippedPanel;
+    public GameObject MadahsShopPanel;
 
     // This method is called to open the app
     public void OpenApp(AppSO appData, AppNames AppName)
@@ -32,6 +33,9 @@ public class AppManager : MonoBehaviour
             case AppNames.K_Flipped:
                 OpenKFlipped();
                 break;
+            case AppNames.MadahsShop:
+                OpenMadahsShop();
+                break;
             default:
                 Debug.LogWarning("AppManager Could not find the App Name");
                 break;
@@ -45,6 +49,7 @@ public class AppManager : MonoBehaviour
         JenuvePanel.SetActive(false);
         NotesPanel.SetActive(false);
         KFlippedPanel.SetActive(false);
+        MadahsShopPanel.SetActive(false);
     }
 
     public void OpenEyemanager()
@@ -140,5 +145,21 @@ public class AppManager : MonoBehaviour
         CloseOtherApps();
         // Disable the K_Flipped panel
         KFlippedPanel.SetActive(false);
+    }
+    public void OpenMadahsShop()
+    {
+        GameManager.Instance.CurrentControl = AppNames.MadahsShop;
+        Debug.Log("Opening MadahsShop");
+        CloseOtherApps();
+        // Enable the MadahsShop panel
+        MadahsShopPanel.SetActive(true);
+    }
+    public void CloseMadahsShop()
+    {
+        GameManager.Instance.CurrentControl = AppNames.None;
+        Debug.Log("Closing MadahsShop");
+        CloseOtherApps();
+        // Disable the MadahsShop panel
+        MadahsShopPanel.SetActive(false);
     }
 }
