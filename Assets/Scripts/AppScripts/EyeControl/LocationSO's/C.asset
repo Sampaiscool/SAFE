@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: d9f6ada3853d1d649aae338f2843560e, type: 3}
   m_Name: C
   m_EditorClassIdentifier: Assembly-CSharp::LocationData
-  locationName: 'C:'
+  locationName: C
   locationDescription: 
   subLocations:
-  - {fileID: 11400000, guid: 1ffb8745a965c504ca85c573c2396815, type: 2}
-  - {fileID: 11400000, guid: bbdf4cea8ebac3542bd7b046711970c4, type: 2}
   - {fileID: 11400000, guid: 6ec09c03a90f5584588ef25a3b86941d, type: 2}
+  - {fileID: 11400000, guid: bbdf4cea8ebac3542bd7b046711970c4, type: 2}
+  - {fileID: 11400000, guid: 1ffb8745a965c504ca85c573c2396815, type: 2}
   availableApplications: []

@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\AppScripts\Clock\ClockApp.cs" />
     <Compile Include="Assets\Scripts\Enums\Difficulties.cs" />
+    <Compile Include="Assets\Scripts\Classes\PlayerSettings.cs" />
     <Compile Include="Assets\Scripts\AppScripts\Jenuve\Jenuve.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\ItemSO.cs" />
     <Compile Include="Assets\Scripts\AppScripts\ResizableWindow.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Assets\Scripts\Managers\PopupManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Enums\AppNames.cs" />
+    <Compile Include="Assets\Scripts\Managers\MenuUIManager.cs" />
     <Compile Include="Assets\Scripts\AppScripts\Notes\Notes.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\LocationData.cs" />
     <Compile Include="Assets\Scripts\App.cs" />

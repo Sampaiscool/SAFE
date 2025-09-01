@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // Destroy duplicate GameManager if it exists
         }
 
+        difficulty = PlayerSettings.chosenDifficulty;
         SetEventInterval();
 
         if (isNewGame)

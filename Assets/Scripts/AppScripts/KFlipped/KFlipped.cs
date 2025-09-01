@@ -7,7 +7,7 @@ public class GridFlip : MonoBehaviour
     public class Cell
     {
         public Image baseImage;      // Normal image
-        public Image highlightImage; // Overlay
+        public Image highlightImage; // Highlight overlay
         public Button button;        // Clickable button
         public bool isHighlighted;   // State tracking
     }
@@ -17,6 +17,11 @@ public class GridFlip : MonoBehaviour
 
     private float timer;
     private int gridSize = 5;
+    private bool puzzleSolved = false;
+
+    // Overlay sprite
+    public Sprite solvedSprite;   // drag your green cell sprite here
+    private Image[] solvedOverlays; // generated at runtime
 
     // Timer values
     public float easyTime = 300f;
@@ -24,16 +29,16 @@ public class GridFlip : MonoBehaviour
     public float hardTime = 120f;
     public float crazyTime = 60f;
 
-    // Predefined formations (you can tweak these)
+    // Predefined formations
     private int[][] formations = new int[][]
     {
-        new int[] { 12 },                                                    // center only
-        new int[] { 6, 7, 8, 11, 13, 16, 17, 18 },                           // cross around center
-        new int[] { 2, 7, 12, 17, 22 },                                      // vertical line
-        new int[] { 10, 11, 12, 13, 14 },                                    // horizontal line
-        new int[] { 2, 6, 12, 18, 22},                                       // zigzag line
-        new int[] { 4, 9, 10, 12, 14, 15, 20},                               // short line + center
-        new int [] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24 }         // skips
+        new int[] { 12 },
+        new int[] { 6, 7, 8, 11, 13, 16, 17, 18 },
+        new int[] { 2, 7, 12, 17, 22 },
+        new int[] { 10, 11, 12, 13, 14 },
+        new int[] { 2, 6, 12, 18, 22},
+        new int[] { 4, 9, 10, 12, 14, 15, 20},
+        new int [] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24 }
     };
 
     void Start()
@@ -47,6 +52,29 @@ public class GridFlip : MonoBehaviour
             cells[i].button.onClick.AddListener(() => OnCellClicked(index));
         }
 
+        // Generate overlays
+        solvedOverlays = new Image[cells.Length];
+        for (int i = 0; i < cells.Length; i++)
+        {
+            GameObject overlayGO = new GameObject("SolvedOverlay_" + i);
+            overlayGO.transform.SetParent(cells[i].baseImage.transform, false);
+
+            Image overlay = overlayGO.AddComponent<Image>();
+            overlay.sprite = solvedSprite;
+            overlay.color = Color.green; // tint it green if needed
+            overlay.raycastTarget = false; // make sure it doesn't block clicks
+            overlay.gameObject.SetActive(false);
+
+            // Stretch overlay to cover cell
+            RectTransform rt = overlay.GetComponent<RectTransform>();
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+
+            solvedOverlays[i] = overlay;
+        }
+
         ResetTimer();
         ApplyRandomFormation();
     }
@@ -55,17 +83,14 @@ public class GridFlip : MonoBehaviour
     {
         timer -= Time.deltaTime;
 
-        if (CheckIfSolved())
-        {
-            timer = 0f;
-        }
-
         if (timer <= 0f)
         {
-            if (CheckIfSolved())
+            if (puzzleSolved)
             {
                 ResetTimer();
                 ApplyRandomFormation();
+                puzzleSolved = false;
+                HideSolvedOverlays();
             }
             else
             {
@@ -89,25 +114,28 @@ public class GridFlip : MonoBehaviour
 
     void ApplyRandomFormation()
     {
-        // Clear all
         foreach (var cell in cells)
             SetCellHighlight(cell, false);
 
-        // Pick a random formation
-        int[] formation = formations[Random.Range(0, formations.Length)];
+        HideSolvedOverlays();
 
+        int[] formation = formations[Random.Range(0, formations.Length)];
         foreach (int index in formation)
             SetCellHighlight(cells[index], true);
     }
 
     void OnCellClicked(int index)
     {
-        // Flip self + neighbors
-        FlipCell(index); // self
-        FlipCell(index - gridSize); // up
-        FlipCell(index + gridSize); // down
-        if (index % gridSize != 0) FlipCell(index - 1); // left
-        if (index % gridSize != gridSize - 1) FlipCell(index + 1); // right
+        if (puzzleSolved) return;
+
+        FlipCell(index);
+        FlipCell(index - gridSize);
+        FlipCell(index + gridSize);
+        if (index % gridSize != 0) FlipCell(index - 1);
+        if (index % gridSize != gridSize - 1) FlipCell(index + 1);
+
+        if (CheckIfSolved())
+            OnPuzzleSolved();
     }
 
     void FlipCell(int index)
@@ -120,7 +148,7 @@ public class GridFlip : MonoBehaviour
     {
         cell.isHighlighted = state;
         if (cell.highlightImage != null)
-            cell.highlightImage.gameObject.SetActive(state); // enable/disable the child GameObject
+            cell.highlightImage.gameObject.SetActive(state);
     }
 
     bool CheckIfSolved()
@@ -128,5 +156,24 @@ public class GridFlip : MonoBehaviour
         foreach (var cell in cells)
             if (!cell.isHighlighted) return false;
         return true;
+    }
+
+    void OnPuzzleSolved()
+    {
+        puzzleSolved = true;
+        ShowSolvedOverlays();
+        Debug.Log("Puzzle Solved!");
+    }
+
+    void ShowSolvedOverlays()
+    {
+        foreach (var overlay in solvedOverlays)
+            overlay.gameObject.SetActive(true);
+    }
+
+    void HideSolvedOverlays()
+    {
+        foreach (var overlay in solvedOverlays)
+            overlay.gameObject.SetActive(false);
     }
 }
