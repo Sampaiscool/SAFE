@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Enums\Difficulties.cs" />
     <Compile Include="Assets\Scripts\Classes\PlayerSettings.cs" />
     <Compile Include="Assets\Scripts\AppScripts\Jenuve\Jenuve.cs" />
+    <Compile Include="Assets\Scripts\Managers\SessionManager.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\ItemSO.cs" />
     <Compile Include="Assets\Scripts\AppScripts\ResizableWindow.cs" />
     <Compile Include="Assets\Scripts\Managers\AppManager.cs" />

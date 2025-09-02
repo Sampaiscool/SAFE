@@ -6975,6 +6975,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883477830}
   m_CullTransparentMesh: 1
+--- !u!1 &940213817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 940213818}
+  - component: {fileID: 940213819}
+  m_Layer: 0
+  m_Name: SessionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &940213818
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940213817}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1468572126}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &940213819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940213817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4d67f9214b9b5a4dadd0b14fb568b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allApplications:
+  - {fileID: 11400000, guid: cc6c31a3981e1c84287405be2c87d2e5, type: 2}
+  - {fileID: 11400000, guid: 57b3da41d234a844d9e2d2f8398ba358, type: 2}
+  - {fileID: 11400000, guid: aa29b55c3ddda764caab09a9b6b529fa, type: 2}
 --- !u!1 &950419200
 GameObject:
   m_ObjectHideFlags: 0
@@ -10565,6 +10613,9 @@ MonoBehaviour:
   items:
   - {fileID: 11400000, guid: 88367c23029c9ac4c8e3a1334cda0d0b, type: 2}
   - {fileID: 11400000, guid: 79c5d85e5910c7448b2fd3840268d5e9, type: 2}
+  - {fileID: 11400000, guid: 2853577ab0b5bc24a924d5882c70e81f, type: 2}
+  - {fileID: 11400000, guid: 5b1c117bf9cedb2488c258a254699c95, type: 2}
+  - {fileID: 11400000, guid: 70e412d09f4a81243a42153cf9816309, type: 2}
   minigamestring: 
   locationString: 'C:> '
 --- !u!1 &1312261652
@@ -10825,11 +10876,16 @@ MonoBehaviour:
   minimalHeat: 30
   currentHeat: 0
   maxHeat: 100
+  startCoins: 0
+  currentCoins: 0
   difficulty: 1
   exitCode: 
   allApplications:
   - {fileID: 11400000, guid: cc6c31a3981e1c84287405be2c87d2e5, type: 2}
+  - {fileID: 11400000, guid: 57b3da41d234a844d9e2d2f8398ba358, type: 2}
+  - {fileID: 11400000, guid: aa29b55c3ddda764caab09a9b6b529fa, type: 2}
   glitchManager: {fileID: 1129283914}
+  sessionManager: {fileID: 940213819}
   systemDevices: {fileID: 1487619084}
   CurrentControl: 0
   isNewGame: 1
@@ -12076,6 +12132,7 @@ Transform:
   m_Children:
   - {fileID: 1441398141}
   - {fileID: 1129283913}
+  - {fileID: 940213818}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1487619083

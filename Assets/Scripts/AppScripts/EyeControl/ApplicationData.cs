@@ -20,12 +20,14 @@ public class ApplicationData : ScriptableObject
         PlayerPrefs.Save();
     }
 
-    // Reset unlocked state for the new session (this would be called on a new game start)
-    public void ResetUnlockedState()
+    public void SaveIds()
     {
-        // Randomly assign unlocked state for the new playthrough
-        isUnlocked = UnityEngine.Random.Range(0, 2) == 1;  // Randomly true or false
-        PlayerPrefs.SetInt(applicationName + "_Unlocked", isUnlocked ? 1 : 0);  // Save it
+        applicationId = Random.Range(1100, 9999);
+        QuickFlashId = Random.Range(10, 99);
+
+        PlayerPrefs.SetInt(applicationName + "_ApplicationId", applicationId);
+        PlayerPrefs.SetInt(applicationName + "_QuickFlashId", QuickFlashId);
         PlayerPrefs.Save();
     }
+
 }

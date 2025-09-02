@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public int minimalHeat = 30;
     public int currentHeat;
     public int maxHeat = 100;
+    public int startCoins;
+    public int currentCoins;
 
     /// <summary>
     /// Enum to represent the current difficulty level of the game.
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour
     public ApplicationData[] allApplications;
 
     public GlitchManager glitchManager;
+    public SessionManager sessionManager;
     public SystemDevices systemDevices;
 
     /// <summary>
@@ -59,15 +62,38 @@ public class GameManager : MonoBehaviour
 
         if (isNewGame)
         {
+            sessionManager.StartNewSession();
             // Reset unlocked applications at the start of a new game
             ResetAllUnlockedApplications();
             isNewGame = false; // Ensure this only happens once
+
+            ResetAllApplicationIds();
 
             // Optionally generate the exit code on first start or if not present
             if (string.IsNullOrEmpty(exitCode))
             {
                 GenerateExitCode();
             }
+
+            //Set the Start Coins amount
+            switch (difficulty)
+            {
+                case Difficulties.Easy:
+                    startCoins += 20;
+                    break;
+                case Difficulties.Medium:
+                    startCoins += 15;
+                    break;
+                case Difficulties.Hard:
+                    startCoins += 10;
+                    break;
+                case Difficulties.Crazy:
+                    startCoins += 0;
+                    break;
+                default:
+                    break;
+            }
+            currentCoins += startCoins;
         }
 
         currentHeat = minimalHeat;
@@ -86,21 +112,15 @@ public class GameManager : MonoBehaviour
     }
 
     // Method to generate and assign IDs to all applications
-    public void GenerateAppIds()
+    public void ResetAllApplicationIds()
     {
+        // Delete old Prefs
+
+        // generate New Id's
         foreach (var app in allApplications)
         {
-            // Generate random IDs for each application
-            app.applicationId = GenerateRandomID(1000, 9999);  // 4-digit ID
-            app.QuickFlashId = GenerateRandomID(10, 99);       // 2-digit ID
-
-            // Save these IDs to PlayerPrefs (optional, if you want to persist them across sessions)
-            PlayerPrefs.SetInt(app.applicationName + "_AppId", app.applicationId);
-            PlayerPrefs.SetInt(app.applicationName + "_QuickFlashId", app.QuickFlashId);
+            app.SaveIds();
         }
-
-        // Save changes to PlayerPrefs
-        PlayerPrefs.Save();
     }
 
     void SetEventInterval()
@@ -195,6 +215,24 @@ public class GameManager : MonoBehaviour
 
         currentHeat += amount;
     }
+
+    /// <summary>
+    /// Changes the coins amount
+    /// </summary>
+    /// <param name="amount">The amount that will be added / removed</param>
+    /// <param name="IsPurchase">true = amount will be removed, false = amount will be added</param>
+    public void CoinsChange(int amount, bool IsPurchase)
+    {
+        if (IsPurchase == true)
+        {
+            currentCoins -= amount;
+        }
+        else
+        {
+            currentCoins += amount;
+        }
+    }
+
     public void ResetHeat()
     {
         currentHeat = minimalHeat;

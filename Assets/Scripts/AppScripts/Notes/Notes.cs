@@ -26,6 +26,11 @@ public class Notes : MonoBehaviour
         addNoteButton.onClick.AddListener(AddNote);
     }
 
+    void Update()
+    {
+        HandleInput();
+    }
+
     void AddNote()
     {
         if (string.IsNullOrWhiteSpace(newNoteInput.text)) return;
@@ -62,5 +67,17 @@ public class Notes : MonoBehaviour
     {
         notes.Remove(note);
         Destroy(note.root);
+    }
+
+    public void HandleInput()
+    {
+        if (GameManager.Instance.CurrentControl == AppNames.Notes)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                AddNote();
+            }
+                
+        }
     }
 }

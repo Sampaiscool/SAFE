@@ -54,6 +54,7 @@ public class AppManager : MonoBehaviour
 
     public void OpenEyemanager()
     {
+        GameManager.Instance.CurrentControl = AppNames.Eyemanager;
         Debug.Log("Opening Eyemanager");
         CloseOtherApps();
         // Enable the Eyemanager panel
@@ -78,6 +79,7 @@ public class AppManager : MonoBehaviour
 
     public void CloseEyemanager()
     {
+        GameManager.Instance.CurrentControl = AppNames.None;
         Debug.Log("Closing Eyemanager");
         CloseOtherApps();
         // Disable the Eyemanager panel

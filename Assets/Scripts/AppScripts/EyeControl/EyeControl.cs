@@ -340,8 +340,8 @@ public class EyeControl : MonoBehaviour
                     commandHistory += locationString + "Information about the application:\n";
                     commandHistory += locationString + "Name: " + app.applicationName + "\n";
                     commandHistory += locationString + "Date Created: " + app.dateCreated + "\n";
-                    commandHistory += locationString + "Application Id: " + app.applicationId + "\n";
-                    commandHistory += locationString + "QuickFlash Id: " + app.QuickFlashId + "\n";
+                    commandHistory += locationString + "Application Id: " + PlayerPrefs.GetInt(app.applicationName, app.applicationId) + "\n";
+                    commandHistory += locationString + "QuickFlash Id: " + PlayerPrefs.GetInt(app.applicationName, app.QuickFlashId) + "\n";
                     if (app.isUnlocked)
                     {
                         commandHistory += locationString + "Unlocked\n";
@@ -375,6 +375,7 @@ public class EyeControl : MonoBehaviour
             }
         }
 
+        commandHistory += "\n";
         ScrollToBottom();
     }
     void DecodeUnlock(string appName, int userProvidedId)
@@ -385,7 +386,7 @@ public class EyeControl : MonoBehaviour
         if (app != null)
         {
             // Calculate the correct ID by subtracting QuickFlashId from ApplicationId
-            int correctId = app.applicationId - app.QuickFlashId;
+            int correctId = PlayerPrefs.GetInt(app.applicationName, app.applicationId) - PlayerPrefs.GetInt(app.applicationName, app.QuickFlashId);
 
             // Check if the provided ID matches the calculated one
             if (userProvidedId == correctId)
@@ -408,16 +409,17 @@ public class EyeControl : MonoBehaviour
         }
     }
 
-    void ScrollToBottom()
+    public void ScrollToBottom()
     {
-        // If the panel has just been enabled, force the layout update
-        LayoutRebuilder.ForceRebuildLayoutImmediate(scrollRect.content);
+        StartCoroutine(ScrollToBottomNextFrame());
+    }
+    private IEnumerator ScrollToBottomNextFrame()
+    {
+        // wait until the end of the frame so Unity finishes laying out
+        yield return new WaitForEndOfFrame();
 
-        // Update the canvas to ensure it reflects any changes to the layout
+        scrollRect.verticalNormalizedPosition = 0f;
         Canvas.ForceUpdateCanvases();
-
-        // Scroll to the bottom
-        scrollRect.verticalNormalizedPosition = 0;
     }
 
     void CloseApp()
