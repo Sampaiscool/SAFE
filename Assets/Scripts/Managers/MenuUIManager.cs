@@ -19,5 +19,11 @@ public class MenuUIManager : MonoBehaviour
 
         // Load your game scene after selecting
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+
+        // If the player retries after a loss:
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ResetGame();
+        }
     }
 }

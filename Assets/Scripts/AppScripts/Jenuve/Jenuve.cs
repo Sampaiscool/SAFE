@@ -37,6 +37,12 @@ public class Jenuve : MonoBehaviour
     private float glitchTimer;
     private HashSet<int> glitchCells = new HashSet<int>();
 
+    private float timerBeforeGlitch;
+    private float forgivenessTime = 5f; // 5 seconds forgiveness buffer
+    private float forgivenessTimer;
+    private bool isForgivenessActive = false;
+
+
     void Start()
     {
         difficulty = GameManager.Instance.difficulty;
@@ -55,7 +61,22 @@ public class Jenuve : MonoBehaviour
         if (glitchActive)
         {
             GlitchUpdate();
-            return; // Pause normal minigame while glitch is active
+            return; // pause normal minigame while glitch active
+        }
+
+        if (isForgivenessActive)
+        {
+            forgivenessTimer -= Time.deltaTime;
+            if (forgivenessTimer <= 0f)
+            {
+                // Resume main timer from before the glitch
+                timer = timerBeforeGlitch;
+                isForgivenessActive = false;
+            }
+            else
+            {
+                return; // still in forgiveness time, pause the timer
+            }
         }
 
         timer -= Time.deltaTime;
@@ -72,9 +93,11 @@ public class Jenuve : MonoBehaviour
                 Debug.Log("Wrong cell!");
                 ResetTimer();
                 RandomizeTarget(targetIndex);
+                GameManager.Instance.PlayerLost(DeathReason.Jenuve_IncorrectCell);
             }
         }
     }
+
 
     void HandleInput()
     {
@@ -139,7 +162,10 @@ public class Jenuve : MonoBehaviour
 
     public void JenuveGlitch()
     {
+        if (glitchActive) return;
+
         glitchActive = true;
+        timerBeforeGlitch = timer; // store remaining time
         glitchCells.Clear();
 
         int minCells = 2;
@@ -166,24 +192,27 @@ public class Jenuve : MonoBehaviour
             cells[i].highlightImage.gameObject.SetActive(glitchCells.Contains(i));
     }
 
+
     void GlitchUpdate()
     {
         glitchTimer -= Time.deltaTime;
 
         if (glitchCells.Count == 0)
         {
-            Debug.Log("Glitch cleared!");
+            // Start forgiveness buffer
             glitchActive = false;
-            ResetTimer();
-            RandomizeTarget(-1);
+            isForgivenessActive = true;
+            forgivenessTimer = forgivenessTime;
         }
         else if (glitchTimer <= 0f)
         {
             Debug.Log("Glitch failed - You Lose!");
             glitchActive = false;
             enabled = false;
+            GameManager.Instance.PlayerLost(DeathReason.Jenuve_IncorrectCell);
         }
     }
+
 
     void CheckGlitchCell()
     {

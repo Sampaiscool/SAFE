@@ -134,6 +134,16 @@ public class EyeControl : MonoBehaviour
                 commandHistory += locationString + "Undertaker Commands:\n\n";
                 commandHistory += locationString + "scan - try to scan the application, if succesfull you will enter a minigame\n";
             }
+            else if (currentLocation.locationName == "SolidIndex")
+            {
+                commandHistory += locationString + "SolidIndex Commands:\n\n";
+                commandHistory += locationString + "scan - try to scan the application, if succesfull you will enter a minigame\n";
+            }
+            else if (currentLocation.locationName == "Fated")
+            {
+                commandHistory += locationString + "Fated Commands:\n\n";
+                commandHistory += locationString + "scan - try to scan the application, if succesfull you will enter a minigame\n";
+            }
             else if (currentLocation.locationName == "EYE-CENTER")
             {
                 commandHistory += locationString + "EYE-CENTER Commands:\n\n";
@@ -252,13 +262,71 @@ public class EyeControl : MonoBehaviour
             }
             else if (command == minigamestring)
             {
+                minigamestring = "";
+
                 if (specificCommand == true)
                 {
                     specificCommand = false;
                     commandHistory += locationString + "Scan process succesfull\n";
                     commandHistory += locationString + "Generating part of Exit.exe code...\n";
 
-                    string exitcode1 = GameManager.Instance.GetExitCodePart(0, 4);
+                    string exitcode1 = GameManager.Instance.GetExitCodePart(0, 3);
+
+                    commandHistory += locationString + "1 - " + exitcode1 + "\n";
+                }
+                else
+                {
+                    commandHistory += locationString + "Something went wrong :(\n";
+                }
+            }
+        }
+        else if (currentLocation.locationName == "SolidIndex")
+        {
+            // Simulate typing of a hacking command
+            if (command.ToLower() == "scan")
+            {
+                commandHistory += locationString + "Scanning system...\n";
+                StartCoroutine(HackingProcess("Scanning..."));
+            }
+            else if (command == minigamestring)
+            {
+                minigamestring = "";
+
+                if (specificCommand == true)
+                {
+                    specificCommand = false;
+                    commandHistory += locationString + "Scan process succesfull\n";
+                    commandHistory += locationString + "Generating part of Exit.exe code...\n";
+
+                    string exitcode1 = GameManager.Instance.GetExitCodePart(2, 3);
+
+                    commandHistory += locationString + "2 - " + exitcode1 + "\n";
+                }
+                else
+                {
+                    commandHistory += locationString + "Something went wrong :(\n";
+                }
+            }
+        }
+        else if (currentLocation.locationName == "Fated")
+        {
+            // Simulate typing of a hacking command
+            if (command.ToLower() == "scan")
+            {
+                commandHistory += locationString + "Scanning system...\n";
+                StartCoroutine(HackingProcess("Scanning..."));
+            }
+            else if (command == minigamestring)
+            {
+                minigamestring = "";
+
+                if (specificCommand == true)
+                {
+                    specificCommand = false;
+                    commandHistory += locationString + "Scan process succesfull\n";
+                    commandHistory += locationString + "Generating part of Exit.exe code...\n";
+
+                    string exitcode1 = GameManager.Instance.GetExitCodePart(5, 3);
 
                     commandHistory += locationString + "1 - " + exitcode1 + "\n";
                 }

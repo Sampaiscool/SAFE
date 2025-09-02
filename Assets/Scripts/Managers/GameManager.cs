@@ -35,11 +35,13 @@ public class GameManager : MonoBehaviour
     public GlitchManager glitchManager;
     public SessionManager sessionManager;
     public SystemDevices systemDevices;
+    public MadahShop madahShop;
 
     /// <summary>
     /// Enum to track the current control being used in the game.
     /// </summary>
     public AppNames CurrentControl = AppNames.None;
+    public DeathReason LostDueTo = DeathReason.None;
 
     // Flag to track if the game is new
     public bool isNewGame = true;
@@ -79,16 +81,16 @@ public class GameManager : MonoBehaviour
             switch (difficulty)
             {
                 case Difficulties.Easy:
-                    startCoins += 20;
+                    CoinsChange(20, false);
                     break;
                 case Difficulties.Medium:
-                    startCoins += 15;
+                    CoinsChange(15, false);
                     break;
                 case Difficulties.Hard:
-                    startCoins += 10;
+                    CoinsChange(10, false);
                     break;
                 case Difficulties.Crazy:
-                    startCoins += 0;
+                    CoinsChange(0, false);
                     break;
                 default:
                     break;
@@ -231,6 +233,8 @@ public class GameManager : MonoBehaviour
         {
             currentCoins += amount;
         }
+
+        madahShop.UpdateCoinText();
     }
 
     public void ResetHeat()
@@ -244,19 +248,51 @@ public class GameManager : MonoBehaviour
     /// <param name="reason">The Reason the player lost (enum)</param>
     public void PlayerLost(DeathReason reason)
     {
+        StopAllGameSystems();
+
+        LostDueTo = reason;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LostScene");
+
         switch (reason)
         {
             case DeathReason.SystemDevices_CorruptionAndHeat:
                 Debug.Log("Player lost due to heat and corruption.");
                 break;
             case DeathReason.Jenuve_IncorrectCell:
-                Debug.Log("Player lost due to being on the incorrect cell inside Jenuva");
+                Debug.Log("Player lost due to being on the incorrect cell inside Jenuva.");
+                break;
+            case DeathReason.Jenuve_GlitchMiniGameFailed:
+                Debug.Log("Player lost due to Failing to fix the glitch in time inside Jenuva.");
                 break;
             case DeathReason.KFlipped_NotFinished:
                 Debug.Log("Player lost due to not finishing the KFlipped minigame.");
                 break;
-            default:
-                break;
         }
+    }
+    public void StopAllGameSystems()
+    {
+        CancelInvoke();            // stop all InvokeRepeating, including UpdateClock + TimedEvent
+    }
+
+    public void ResetGame()
+    {
+        Debug.Log("Player has reset the game after death");
+
+        // Reset coins/heat/time
+        currentHeat = minimalHeat;
+        currentTimeInSeconds = 12 * 3600f;
+        currentCoins = 0;
+        LostDueTo = DeathReason.None;
+
+        // Reset unlocked apps
+        ResetAllUnlockedApplications();
+        ResetAllApplicationIds();
+
+        // Optionally regenerate exit code
+        GenerateExitCode();
+
+        // Restart systems
+        StartClock();
+        InvokeRepeating("TimedEvent", eventInterval, eventInterval);
     }
 }

@@ -176,4 +176,19 @@ public class GridFlip : MonoBehaviour
         foreach (var overlay in solvedOverlays)
             overlay.gameObject.SetActive(false);
     }
+    public void InstantSolveOneRound()
+    {
+        if (!puzzleSolved)
+        {
+            // Highlight all cells
+            foreach (var cell in cells)
+                SetCellHighlight(cell, true);
+
+            // Show solved overlays
+            ShowSolvedOverlays();
+
+            puzzleSolved = true;
+            Debug.Log("Puzzle instantly solved for this round!");
+        }
+    }
 }

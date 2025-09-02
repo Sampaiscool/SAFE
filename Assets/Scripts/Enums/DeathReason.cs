@@ -4,7 +4,9 @@ using UnityEngine;
 
 public enum DeathReason
 {
+    None,
     SystemDevices_CorruptionAndHeat,
     Jenuve_IncorrectCell,
+    Jenuve_GlitchMiniGameFailed,
     KFlipped_NotFinished,
 }

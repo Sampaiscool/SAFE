@@ -7,6 +7,7 @@ public class PopupManager : MonoBehaviour
     public GameObject popup;
     public Button popupButton;
     public AppManager appManager;
+    public GameObject glitchPopupFreezePrefab;
 
     private Coroutine closePopupCoroutine; // To hold the coroutine so we can stop it if needed
 
@@ -52,6 +53,17 @@ public class PopupManager : MonoBehaviour
     public void ClosePopup()
     {
         popup.SetActive(false); // Hide the popup
+    }
+
+    public void GlitchPopupBlocked()
+    {
+        GameObject popup = Instantiate(glitchPopupFreezePrefab, transform);
+        Animator animator = popup.GetComponent<Animator>();
+        animator.Play("GlitchPopupFrozen");
+
+        // Destroy after animation length
+        float clipLength = animator.GetCurrentAnimatorStateInfo(0).length;
+        Destroy(popup, clipLength);
     }
 
     /// <summary>

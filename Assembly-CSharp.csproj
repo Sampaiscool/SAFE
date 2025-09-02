@@ -68,6 +68,8 @@
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\ItemSO.cs" />
     <Compile Include="Assets\Scripts\AppScripts\ResizableWindow.cs" />
     <Compile Include="Assets\Scripts\Managers\AppManager.cs" />
+    <Compile Include="Assets\Scripts\AppScripts\MadahShop\Upgrades\UpgradeSO.cs" />
+    <Compile Include="Assets\Scripts\AppScripts\MadahShop\Upgrades\ShopItemUI.cs" />
     <Compile Include="Assets\Scripts\AppScripts\SystemDevices\SystemDevices.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\EyeControl.cs" />
     <Compile Include="Assets\Scripts\SoScripts\AppSO.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Enums\AppNames.cs" />
     <Compile Include="Assets\Scripts\Managers\MenuUIManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\DeathUIManager.cs" />
     <Compile Include="Assets\Scripts\AppScripts\Notes\Notes.cs" />
     <Compile Include="Assets\Scripts\AppScripts\MadahShop\MadahShop.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\LocationData.cs" />
