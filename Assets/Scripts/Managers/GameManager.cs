@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     public SessionManager sessionManager;
     public SystemDevices systemDevices;
     public MadahShop madahShop;
+    public EyeControl EyeControl;
+    public Notes Notes;
 
     /// <summary>
     /// Enum to track the current control being used in the game.

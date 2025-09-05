@@ -67,7 +67,9 @@
     <Compile Include="Assets\Scripts\Managers\SessionManager.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\ItemSO.cs" />
     <Compile Include="Assets\Scripts\AppScripts\ResizableWindow.cs" />
+    <Compile Include="Assets\Scripts\AppScripts\EyeControl\FirewallGame\PlayerCatcher.cs" />
     <Compile Include="Assets\Scripts\Managers\AppManager.cs" />
+    <Compile Include="Assets\Scripts\AppScripts\EyeControl\FirewallGame\FirewallBreak.cs" />
     <Compile Include="Assets\Scripts\AppScripts\MadahShop\Upgrades\UpgradeSO.cs" />
     <Compile Include="Assets\Scripts\AppScripts\MadahShop\Upgrades\ShopItemUI.cs" />
     <Compile Include="Assets\Scripts\AppScripts\SystemDevices\SystemDevices.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Assets\Scripts\Enums\DeathReason.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\ApplicationData.cs" />
     <Compile Include="Assets\Scripts\AppScripts\KFlipped\KFlipped.cs" />
+    <Compile Include="Assets\Scripts\AppScripts\EyeControl\FirewallGame\FallingBlock.cs" />
     <Compile Include="Assets\Scripts\Managers\PopupManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Enums\AppNames.cs" />

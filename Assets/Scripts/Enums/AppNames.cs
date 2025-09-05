@@ -17,4 +17,5 @@ public enum AppNames
     Jenuve,
     K_Flipped,
     MadahsShop,
+    FirewallMinigame,
 }

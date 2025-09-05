@@ -1,10 +1,11 @@
-using UnityEngine;
-using UnityEngine.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+using TMPro;
 using UnityEditorInternal;
+using UnityEngine;
 using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 public class EyeControl : MonoBehaviour
 {
@@ -24,6 +25,10 @@ public class EyeControl : MonoBehaviour
     private ApplicationData currentApplication;
 
     public string locationString = "C:> ";   // Location prompt string, to be updated based on location
+    public TMP_InputField hiddenInputField;
+
+    public GameObject FirewallObject;
+    public FirewallBreak FirewallBreakScript;
 
     private float backspaceTimer = 0.0f;
     private float backspaceDelay = 0.2f; // Time in seconds to wait between backspace presses
@@ -34,6 +39,8 @@ public class EyeControl : MonoBehaviour
     private bool isCursorVisible = true;
     private bool specificCommand = false;
     private Coroutine cursorCoroutine;
+    private List<string> commandHistoryList = new List<string>();
+    private int historyIndex = -1;
 
     private string initialMessage = "Welcome to the Eye Control. Type 'help' for a list of commands.";
 
@@ -41,66 +48,137 @@ public class EyeControl : MonoBehaviour
     {
         currentLocation = startLocation;
         closeButton.onClick.AddListener(CloseApp);
-        cursorCoroutine = StartCoroutine(BlinkCursor());
+
         ResetApp();
         SetUpScrollContent();
+    }
+    void OnEnable()
+    {
+        // Start blinking cursor
+        cursorCoroutine = StartCoroutine(BlinkCursor());
+
+        // Forceer EventSystem focus op je verborgen InputField
+        if (hiddenInputField != null)
+        {
+            hiddenInputField.text = ""; // leegmaken
+            hiddenInputField.Select();
+            hiddenInputField.ActivateInputField();
+        }
+    }
+    void OnDisable()
+    {
+        // Stop blinking when the app is closed or disabled
+        if (cursorCoroutine != null)
+        {
+            StopCoroutine(cursorCoroutine);
+            cursorCoroutine = null;
+        }
+
+        // Reset cursor visibility
+        isCursorVisible = true;
+        commandPromptText.text = commandHistory + locationString + currentCommand;
     }
 
     void Update()
     {
-        // Handle 'Enter' key press
+        if (GameManager.Instance.CurrentControl != AppNames.Eyemanager)
+            return;
+
+        // ENTER - command uitvoeren
         if (Input.GetKeyDown(KeyCode.Return) && !string.IsNullOrEmpty(currentCommand))
         {
             SubmitCommand(currentCommand);
             currentCommand = "";
+            UpdateCommandText(); // direct leegmaken op het scherm
         }
-
-        // Handle regular key input (except Return and Backspace)
-        if (Input.anyKeyDown && !Input.GetKey(KeyCode.Return) && !Input.GetKey(KeyCode.Backspace))
+        // normale key input (behalve Enter/Backspace)
+        else if (Input.anyKeyDown && !Input.GetKey(KeyCode.Return) && !Input.GetKey(KeyCode.Backspace))
         {
             currentCommand += Input.inputString;
             UpdateCommandText();
         }
-
-        // Handle backspace with first press being instant, then delay on subsequent presses
-        if (Input.GetKey(KeyCode.Backspace) && currentCommand.Length > 0)
+        // BACKSPACE
+        else if (Input.GetKey(KeyCode.Backspace) && currentCommand.Length > 0)
         {
             if (!isBackspaceHeld)
             {
-                // First backspace press: Instant removal
+                // eerste backspace = direct verwijderen
                 currentCommand = currentCommand.Substring(0, currentCommand.Length - 1);
-                isBackspaceHeld = true;  // Mark that backspace has been pressed
+                isBackspaceHeld = true;
                 UpdateCommandText();
             }
             else
             {
-                // Timer activated for subsequent presses
-                backspaceTimer += Time.deltaTime;  // Increment the timer
-
+                // vasthouden = delay
+                backspaceTimer += Time.deltaTime;
                 if (backspaceTimer >= backspaceDelay)
                 {
-                    // Only delete one character at a time after the delay
                     currentCommand = currentCommand.Substring(0, currentCommand.Length - 1);
-                    backspaceTimer = 0.0f; // Reset the timer after backspace action
+                    backspaceTimer = 0.0f;
                     UpdateCommandText();
                 }
             }
         }
         else
         {
-            // Reset the backspace state if backspace key is released
+            // reset backspace state zodra je loslaat
             if (isBackspaceHeld)
             {
                 isBackspaceHeld = false;
-                backspaceTimer = 0.0f;  // Reset the timer when backspace is released
+                backspaceTimer = 0.0f;
             }
         }
+
+        // HISTORY
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (commandHistoryList.Count > 0)
+            {
+                historyIndex = Mathf.Max(0, historyIndex - 1);
+                currentCommand = commandHistoryList[historyIndex];
+                UpdateCommandText();
+            }
+        }
+        // HISTORY
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (commandHistoryList.Count > 0)
+            {
+                historyIndex = Mathf.Min(commandHistoryList.Count, historyIndex + 1);
+
+                if (historyIndex < commandHistoryList.Count)
+                    currentCommand = commandHistoryList[historyIndex];
+                else
+                    currentCommand = "";
+
+                UpdateCommandText();
+            }
+        }
+
+        // COPY
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C))
+        {
+            GUIUtility.systemCopyBuffer = currentCommand;
+        }
+
+        // PASTE
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.V))
+        {
+            currentCommand += GUIUtility.systemCopyBuffer;
+            UpdateCommandText();
+        }
     }
+
 
     void SubmitCommand(string command)
     {
         commandHistory += locationString + command + "\n";
         ProcessCommand(command);
+
+        // Voeg toe aan history
+        commandHistoryList.Add(command);
+        historyIndex = commandHistoryList.Count; // index achter laatste
+
         commandPromptText.text = commandHistory + locationString;
     }
 
@@ -155,7 +233,12 @@ public class EyeControl : MonoBehaviour
                 commandHistory += locationString + "Users Commands:\n\n";
                 commandHistory += locationString + "\n";
             }
-            ScrollToBottom();
+            else if (currentLocation.locationName == "Security")
+            {
+                commandHistory += locationString + "Security Commands:\n\n";
+                commandHistory += locationString + "breach firewall - try to break the firewall\n";
+            }
+                ScrollToBottom();
         }
         else if (command.ToLower() == "intro")
         {
@@ -272,6 +355,8 @@ public class EyeControl : MonoBehaviour
 
                     string exitcode1 = GameManager.Instance.GetExitCodePart(0, 3);
 
+                    GameManager.Instance.Notes.AddNoteWithText("Exit.exe Code Part: 1 - " + exitcode1);
+
                     commandHistory += locationString + "1 - " + exitcode1 + "\n";
                 }
                 else
@@ -299,6 +384,8 @@ public class EyeControl : MonoBehaviour
                     commandHistory += locationString + "Generating part of Exit.exe code...\n";
 
                     string exitcode1 = GameManager.Instance.GetExitCodePart(2, 3);
+
+                    GameManager.Instance.Notes.AddNoteWithText("Exit.exe Code Part: 2 - " + exitcode1);
 
                     commandHistory += locationString + "2 - " + exitcode1 + "\n";
                 }
@@ -328,7 +415,9 @@ public class EyeControl : MonoBehaviour
 
                     string exitcode1 = GameManager.Instance.GetExitCodePart(5, 3);
 
-                    commandHistory += locationString + "1 - " + exitcode1 + "\n";
+                    GameManager.Instance.Notes.AddNoteWithText("Exit.exe Code Part: 3 - " + exitcode1);
+
+                    commandHistory += locationString + "3 - " + exitcode1 + "\n";
                 }
                 else
                 {
@@ -351,6 +440,15 @@ public class EyeControl : MonoBehaviour
                 ConnectInformation(itemName, "item");
             }
 
+        }
+        else if (currentLocation.locationName == "Security")
+        {
+            if (command.ToLower() == "breach firewall")
+            {
+                FirewallObject.SetActive(true);
+                GameManager.Instance.CurrentControl = AppNames.FirewallMinigame;
+                FirewallBreakScript.StartGame();
+            }
         }
         else
         {
@@ -495,7 +593,7 @@ public class EyeControl : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    IEnumerator BlinkCursor()
+    private IEnumerator BlinkCursor()
     {
         while (true)
         {
@@ -507,6 +605,7 @@ public class EyeControl : MonoBehaviour
 
             commandPromptText.text = commandHistory + locationString + displayCommand;
             isCursorVisible = !isCursorVisible;
+
             yield return new WaitForSeconds(0.5f);
         }
     }
@@ -600,5 +699,63 @@ public class EyeControl : MonoBehaviour
         commandHistory += locationString + "Type the following to gain acces to the application: \n";
         commandHistory += locationString + minigamestring + "\n";
     }
+    public void AfterFirewallGame(bool playerWon)
+    {
+        FirewallObject.SetActive(false);
+        GameManager.Instance.CurrentControl = AppNames.Eyemanager;
+
+        StartCoroutine(FirewallResultSequence(playerWon));
+    }
+
+    private IEnumerator FirewallResultSequence(bool playerWon)
+    {
+        // Some hacker-style flavor messages
+        string[] successMessages = new string[] {
+        "Injecting code fragments...",
+        "Synchronizing data packets...",
+        "Neutralizing security watchdog...",
+        "Reconstructing encrypted shell...",
+    };
+
+        string[] failMessages = new string[] {
+        "Intrusion detected!",
+        "Security countermeasures activated...",
+        "Encryption layers restored...",
+    };
+
+        if (playerWon)
+        {
+            foreach (var msg in successMessages)
+            {
+                commandHistory += locationString + msg + "\n";
+                ScrollToBottom();
+                yield return new WaitForSeconds(1f);
+            }
+
+            commandHistory += locationString + "Breach successful.\n";
+            commandHistory += locationString + "Generating part of Exit.exe code...\n";
+
+            string exitcode1 = GameManager.Instance.GetExitCodePart(8, 3);
+
+            GameManager.Instance.Notes.AddNoteWithText("Exit.exe Code Part: 4 - " + exitcode1);
+
+            commandHistory += locationString + "4 - " + exitcode1 + "\n";
+        }
+        else
+        {
+            foreach (var msg in failMessages)
+            {
+                commandHistory += locationString + msg + "\n";
+                ScrollToBottom();
+                yield return new WaitForSeconds(1f);
+            }
+
+            commandHistory += locationString + "Breach Failed\n";
+            commandHistory += locationString + "Try Again.\n";
+        }
+
+        ScrollToBottom();
+    }
+
 }
 

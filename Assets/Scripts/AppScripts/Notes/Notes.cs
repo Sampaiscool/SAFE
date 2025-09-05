@@ -55,6 +55,28 @@ public class Notes : MonoBehaviour
 
         newNoteInput.text = "";
     }
+    public void AddNoteWithText(string noteText)
+    {
+        if (string.IsNullOrWhiteSpace(noteText)) return;
+
+        // Create new note UI
+        GameObject obj = Instantiate(notePrefab, notesContainer);
+        NoteUI ui = new NoteUI
+        {
+            root = obj,
+            text = obj.GetComponentInChildren<TMP_Text>(),
+            editButton = obj.transform.Find("EditButton").GetComponent<Button>(),
+            deleteButton = obj.transform.Find("DeleteButton").GetComponent<Button>()
+        };
+
+        ui.text.text = noteText;
+
+        // Button events
+        ui.editButton.onClick.AddListener(() => EditNote(ui));
+        ui.deleteButton.onClick.AddListener(() => DeleteNote(ui));
+
+        notes.Add(ui);
+    }
 
     void EditNote(NoteUI note)
     {

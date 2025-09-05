@@ -90,14 +90,13 @@ public class Jenuve : MonoBehaviour
             }
             else
             {
-                Debug.Log("Wrong cell!");
+                // Player was on wrong cell
                 ResetTimer();
                 RandomizeTarget(targetIndex);
                 GameManager.Instance.PlayerLost(DeathReason.Jenuve_IncorrectCell);
             }
         }
     }
-
 
     void HandleInput()
     {
@@ -199,8 +198,13 @@ public class Jenuve : MonoBehaviour
 
         if (glitchCells.Count == 0)
         {
-            // Start forgiveness buffer
+            // Glitch cleared
             glitchActive = false;
+
+            // Spawn a new target immediately
+            RandomizeTarget(playerIndex); // Avoid using old target
+
+            // Start forgiveness buffer
             isForgivenessActive = true;
             forgivenessTimer = forgivenessTime;
         }
@@ -212,7 +216,6 @@ public class Jenuve : MonoBehaviour
             GameManager.Instance.PlayerLost(DeathReason.Jenuve_IncorrectCell);
         }
     }
-
 
     void CheckGlitchCell()
     {
