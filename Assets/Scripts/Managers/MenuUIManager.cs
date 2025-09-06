@@ -17,13 +17,17 @@ public class MenuUIManager : MonoBehaviour
     {
         PlayerSettings.chosenDifficulty = (Difficulties)difficultyIndex;
 
-        // Load your game scene after selecting
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
-
         // If the player retries after a loss:
         if (GameManager.Instance != null)
         {
             GameManager.Instance.ResetGame();
+            GameManager.Instance.isNewGame = true;
+
         }
+
+        // Load your game scene after selecting
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+
+        
     }
 }

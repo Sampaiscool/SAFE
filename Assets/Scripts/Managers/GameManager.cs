@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,6 +33,8 @@ public class GameManager : MonoBehaviour
 
     // Array to hold all your ApplicationData instances (predefined)
     public ApplicationData[] allApplications;
+    public Dictionary<ApplicationData, string> SessionNames = new Dictionary<ApplicationData, string>();
+
 
     public GlitchManager glitchManager;
     public SessionManager sessionManager;
@@ -67,6 +71,7 @@ public class GameManager : MonoBehaviour
         if (isNewGame)
         {
             sessionManager.StartNewSession();
+            sessionManager.InitializeApplicationsForGame();
             // Reset unlocked applications at the start of a new game
             ResetAllUnlockedApplications();
             isNewGame = false; // Ensure this only happens once
@@ -107,6 +112,29 @@ public class GameManager : MonoBehaviour
 
         // Start the timed event
         InvokeRepeating("TimedEvent", eventInterval, eventInterval);  // Adjusted based on difficulty
+    }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "GameScene")
+        {
+            glitchManager = FindObjectOfType<GlitchManager>();
+            sessionManager = FindObjectOfType<SessionManager>();
+            systemDevices = FindObjectOfType<SystemDevices>();
+            madahShop = FindObjectOfType<MadahShop>();
+            EyeControl = FindObjectOfType<EyeControl>();
+            Notes = FindObjectOfType<Notes>();
+
+            Debug.Log("GameManager re-linked scene references!");
+        }
     }
 
     // Generates a random 4-digit ID for the applications

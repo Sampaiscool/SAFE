@@ -204,22 +204,12 @@ public class EyeControl : MonoBehaviour
                 commandHistory += locationString + "Application Commands:\n\n";
                 commandHistory += locationString + "app list - Shows available applications\n";
                 commandHistory += locationString + "connect information [application_name] - Shows informtion about said application\n";
-                commandHistory += locationString + "decode unlock [application_name] [Application_id - QuickFlash_id] - unlocks the application\n";
+                commandHistory += locationString + "decode unlock [application_name] [Id] - unlocks the application\n";
                 commandHistory += locationString + "open application [application_name] - opens the chosen application\n";
             }
-            else if (currentLocation.locationName == "Undertaker")
+            else if (currentLocation.applicationRef != null)
             {
-                commandHistory += locationString + "Undertaker Commands:\n\n";
-                commandHistory += locationString + "scan - try to scan the application, if succesfull you will enter a minigame\n";
-            }
-            else if (currentLocation.locationName == "SolidIndex")
-            {
-                commandHistory += locationString + "SolidIndex Commands:\n\n";
-                commandHistory += locationString + "scan - try to scan the application, if succesfull you will enter a minigame\n";
-            }
-            else if (currentLocation.locationName == "Fated")
-            {
-                commandHistory += locationString + "Fated Commands:\n\n";
+                commandHistory += locationString + currentLocation.locationName + " Commands:\n\n";
                 commandHistory += locationString + "scan - try to scan the application, if succesfull you will enter a minigame\n";
             }
             else if (currentLocation.locationName == "EYE-CENTER")
@@ -238,7 +228,7 @@ public class EyeControl : MonoBehaviour
                 commandHistory += locationString + "Security Commands:\n\n";
                 commandHistory += locationString + "breach firewall - try to break the firewall\n";
             }
-                ScrollToBottom();
+            ScrollToBottom();
         }
         else if (command.ToLower() == "intro")
         {
@@ -335,93 +325,93 @@ public class EyeControl : MonoBehaviour
 
             }
         }
-        else if (currentLocation.locationName == "Undertaker")
+        else if (currentLocation.applicationRef != null)
         {
-            // Simulate typing of a hacking command
-            if (command.ToLower() == "scan")
+            if (GameManager.Instance.SessionNames[currentLocation.applicationRef] == "Application1")
             {
-                commandHistory += locationString + "Scanning system...\n";
-                StartCoroutine(HackingProcess("Scanning..."));
-            }
-            else if (command == minigamestring)
-            {
-                minigamestring = "";
-
-                if (specificCommand == true)
+                // Simulate typing of a hacking command
+                if (command.ToLower() == "scan")
                 {
-                    specificCommand = false;
-                    commandHistory += locationString + "Scan process succesfull\n";
-                    commandHistory += locationString + "Generating part of Exit.exe code...\n";
-
-                    string exitcode1 = GameManager.Instance.GetExitCodePart(0, 3);
-
-                    GameManager.Instance.Notes.AddNoteWithText("Exit.exe Code Part: 1 - " + exitcode1);
-
-                    commandHistory += locationString + "1 - " + exitcode1 + "\n";
+                    commandHistory += locationString + "Scanning system...\n";
+                    StartCoroutine(HackingProcess("Scanning..."));
                 }
-                else
+                else if (command == minigamestring)
                 {
-                    commandHistory += locationString + "Something went wrong :(\n";
-                }
-            }
-        }
-        else if (currentLocation.locationName == "SolidIndex")
-        {
-            // Simulate typing of a hacking command
-            if (command.ToLower() == "scan")
-            {
-                commandHistory += locationString + "Scanning system...\n";
-                StartCoroutine(HackingProcess("Scanning..."));
-            }
-            else if (command == minigamestring)
-            {
-                minigamestring = "";
+                    minigamestring = "";
 
-                if (specificCommand == true)
-                {
-                    specificCommand = false;
-                    commandHistory += locationString + "Scan process succesfull\n";
-                    commandHistory += locationString + "Generating part of Exit.exe code...\n";
+                    if (specificCommand == true)
+                    {
+                        specificCommand = false;
+                        commandHistory += locationString + "Scan process succesfull\n";
+                        commandHistory += locationString + "Generating part of Exit.exe code...\n";
 
-                    string exitcode1 = GameManager.Instance.GetExitCodePart(2, 3);
+                        string exitcode1 = GameManager.Instance.GetExitCodePart(0, 3);
+                        GameManager.Instance.Notes.AddNoteWithText("Exit.exe Code Part: 1 - " + exitcode1);
 
-                    GameManager.Instance.Notes.AddNoteWithText("Exit.exe Code Part: 2 - " + exitcode1);
-
-                    commandHistory += locationString + "2 - " + exitcode1 + "\n";
-                }
-                else
-                {
-                    commandHistory += locationString + "Something went wrong :(\n";
+                        commandHistory += locationString + "1 - " + exitcode1 + "\n";
+                    }
+                    else
+                    {
+                        commandHistory += locationString + "Something went wrong :(\n";
+                    }
                 }
             }
-        }
-        else if (currentLocation.locationName == "Fated")
-        {
-            // Simulate typing of a hacking command
-            if (command.ToLower() == "scan")
+            else if (GameManager.Instance.SessionNames[currentLocation.applicationRef] == "Application2")
             {
-                commandHistory += locationString + "Scanning system...\n";
-                StartCoroutine(HackingProcess("Scanning..."));
-            }
-            else if (command == minigamestring)
-            {
-                minigamestring = "";
-
-                if (specificCommand == true)
+                // Simulate typing of a hacking command
+                if (command.ToLower() == "scan")
                 {
-                    specificCommand = false;
-                    commandHistory += locationString + "Scan process succesfull\n";
-                    commandHistory += locationString + "Generating part of Exit.exe code...\n";
-
-                    string exitcode1 = GameManager.Instance.GetExitCodePart(5, 3);
-
-                    GameManager.Instance.Notes.AddNoteWithText("Exit.exe Code Part: 3 - " + exitcode1);
-
-                    commandHistory += locationString + "3 - " + exitcode1 + "\n";
+                    commandHistory += locationString + "Scanning system...\n";
+                    StartCoroutine(HackingProcess("Scanning..."));
                 }
-                else
+                else if (command == minigamestring)
                 {
-                    commandHistory += locationString + "Something went wrong :(\n";
+                    minigamestring = "";
+
+                    if (specificCommand == true)
+                    {
+                        specificCommand = false;
+                        commandHistory += locationString + "Scan process succesfull\n";
+                        commandHistory += locationString + "Generating part of Exit.exe code...\n";
+
+                        string exitcode2 = GameManager.Instance.GetExitCodePart(0, 3);
+                        GameManager.Instance.Notes.AddNoteWithText("Exit.exe Code Part: 2 - " + exitcode2);
+
+                        commandHistory += locationString + "2 - " + exitcode2 + "\n";
+                    }
+                    else
+                    {
+                        commandHistory += locationString + "Something went wrong :(\n";
+                    }
+                }
+            }
+            else if (GameManager.Instance.SessionNames[currentLocation.applicationRef] == "Application3")
+            {
+                // Simulate typing of a hacking command
+                if (command.ToLower() == "scan")
+                {
+                    commandHistory += locationString + "Scanning system...\n";
+                    StartCoroutine(HackingProcess("Scanning..."));
+                }
+                else if (command == minigamestring)
+                {
+                    minigamestring = "";
+
+                    if (specificCommand == true)
+                    {
+                        specificCommand = false;
+                        commandHistory += locationString + "Scan process succesfull\n";
+                        commandHistory += locationString + "Generating part of Exit.exe code...\n";
+
+                        string exitcode3 = GameManager.Instance.GetExitCodePart(0, 3);
+                        GameManager.Instance.Notes.AddNoteWithText("Exit.exe Code Part: 3 - " + exitcode3);
+
+                        commandHistory += locationString + "3 - " + exitcode3 + "\n";
+                    }
+                    else
+                    {
+                        commandHistory += locationString + "Something went wrong :(\n";
+                    }
                 }
             }
         }
@@ -508,6 +498,39 @@ public class EyeControl : MonoBehaviour
                     commandHistory += locationString + "Date Created: " + app.dateCreated + "\n";
                     commandHistory += locationString + "Application Id: " + PlayerPrefs.GetInt(app.applicationName, app.applicationId) + "\n";
                     commandHistory += locationString + "QuickFlash Id: " + PlayerPrefs.GetInt(app.applicationName, app.QuickFlashId) + "\n";
+                    if (app.applicationName == "Fated")
+                    {
+                        commandHistory += locationString + "Unlock Id:" + PlayerPrefs.GetInt(app.applicationName, app.customUnlockNumber) + "\n";
+                    }
+
+                    switch (app.applicationName)
+                    {
+                        case "Undertaker":
+                            commandHistory += locationString + "Decode id: [application_id] - [quickflash_id] \n";
+                            break;
+                        case "SolidIndex":
+                            commandHistory += locationString + "Decode id: [application_id] + [quickflash_id] \n";
+                            break;
+                        case "Fated":
+                            commandHistory += locationString + "Decode id: [unlock_id] \n";
+                            break;
+                        case "DeepEye":
+                            commandHistory += locationString + "Decode id: [quickflash_id] * [application_id] \n";
+                            break;
+                        case "ILHM":
+                            commandHistory += locationString + "Decode id: ([quickflash_id] + [application_id]) / 2 (round to nearest) \n";
+                            break;
+                        case "BassRodeo":
+                            commandHistory += locationString + "Decode id: [quickflash_id] to binary \n";
+                            break;
+                        case "Dropship":
+                            commandHistory += locationString + "Decode id: reverse [application_id] \n";
+                            break;
+
+                        default:
+                            break;
+                    }
+
                     if (app.isUnlocked)
                     {
                         commandHistory += locationString + "Unlocked\n";
@@ -546,32 +569,26 @@ public class EyeControl : MonoBehaviour
     }
     void DecodeUnlock(string appName, int userProvidedId)
     {
-        // Find the application by name (case insensitive)
         ApplicationData app = currentLocation.availableApplications.Find(a => a.applicationName.ToLower() == appName.ToLower());
 
         if (app != null)
         {
-            // Calculate the correct ID by subtracting QuickFlashId from ApplicationId
-            int correctId = PlayerPrefs.GetInt(app.applicationName, app.applicationId) - PlayerPrefs.GetInt(app.applicationName, app.QuickFlashId);
+            bool unlocked = app.CheckUnlock(userProvidedId);
 
-            // Check if the provided ID matches the calculated one
-            if (userProvidedId == correctId)
+            if (unlocked)
             {
-                // Unlock the application if the IDs match
                 app.isUnlocked = true;
-                app.SaveUnlockedState();  // Save the unlocked state to PlayerPrefs
-                commandHistory += locationString + "Application " + appName + " has been unlocked!\n";
+                app.SaveUnlockedState();
+                commandHistory += locationString + $"Application {appName} has been unlocked!\n";
             }
             else
             {
-                // If the ID doesn't match, inform the player
-                commandHistory += locationString + "The ID provided is incorrect for application " + appName + ".\n";
+                commandHistory += locationString + $"The ID provided is incorrect for application {appName}.\n";
             }
         }
         else
         {
-            // If the application name doesn't match any existing app
-            commandHistory += locationString + "Application " + appName + " not found.\n";
+            commandHistory += locationString + $"Application {appName} not found.\n";
         }
     }
 

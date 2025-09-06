@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9f6ada3853d1d649aae338f2843560e, type: 3}
-  m_Name: Fated
+  m_Script: {fileID: 11500000, guid: 42c4acc8b214c1447b15b8e58a906c76, type: 3}
+  m_Name: BassRodeo
   m_EditorClassIdentifier: 
-  locationName: Fated
-  locationDescription: 
-  subLocations: []
-  availableApplications: []
-  isApplication: 1
-  applicationRef: {fileID: 11400000, guid: 1828042fc3072b14f9cd3b73b8b45d3a, type: 2}
+  applicationName: BassRodeo
+  dateCreated: 21-11-2025
+  applicationId: 0
+  QuickFlashId: 0
+  isUnlocked: 0
+  availableCommands: []
+  customUnlockNumber: 0

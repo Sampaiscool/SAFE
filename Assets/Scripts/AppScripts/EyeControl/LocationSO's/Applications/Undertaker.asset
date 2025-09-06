@@ -16,3 +16,5 @@ MonoBehaviour:
   locationDescription: 
   subLocations: []
   availableApplications: []
+  isApplication: 1
+  applicationRef: {fileID: 11400000, guid: 563d56ec333978f41bd3a604faaae49c, type: 2}

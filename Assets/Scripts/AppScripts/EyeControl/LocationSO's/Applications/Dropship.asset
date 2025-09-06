@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9f6ada3853d1d649aae338f2843560e, type: 3}
-  m_Name: SolidIndex
+  m_Name: Dropship
   m_EditorClassIdentifier: 
-  locationName: SolidIndex
+  locationName: Dropship
   locationDescription: 
   subLocations: []
   availableApplications: []
   isApplication: 1
-  applicationRef: {fileID: 11400000, guid: 94dbda0748e4a43428a73a68b9684adb, type: 2}
+  applicationRef: {fileID: 11400000, guid: 999f40947fc7480449ff3f1f7f859d3a, type: 2}

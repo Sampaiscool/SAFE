@@ -18,7 +18,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 222af02142397424f883c123c4bc1173, type: 2}
   - {fileID: 11400000, guid: da648e982efca654b9e51a4d4bb80bd9, type: 2}
   - {fileID: 11400000, guid: 236dd2938dcd2ec49a9109cd57ef2088, type: 2}
+  - {fileID: 11400000, guid: adeb6aac7b3e6d04f89f90ecb51d9933, type: 2}
+  - {fileID: 11400000, guid: cea6f210236adc847aa235851f8e30aa, type: 2}
+  - {fileID: 11400000, guid: 6c7c0aaf39bca9c4c83cb431400a8073, type: 2}
+  - {fileID: 11400000, guid: 2ea645517e24255438d1a28a84f1f6eb, type: 2}
   availableApplications:
-  - {fileID: 11400000, guid: cc6c31a3981e1c84287405be2c87d2e5, type: 2}
-  - {fileID: 11400000, guid: 57b3da41d234a844d9e2d2f8398ba358, type: 2}
-  - {fileID: 11400000, guid: aa29b55c3ddda764caab09a9b6b529fa, type: 2}
+  - {fileID: 11400000, guid: 719c1e6086fe7d94bb070f2a17cf8408, type: 2}
+  - {fileID: 11400000, guid: 999f40947fc7480449ff3f1f7f859d3a, type: 2}
+  - {fileID: 11400000, guid: 25f35b30585a1c04aab20f9202d19fe3, type: 2}
+  isApplication: 0
+  applicationRef: {fileID: 0}

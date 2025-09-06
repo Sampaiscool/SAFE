@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\FirewallGame\FirewallBreak.cs" />
     <Compile Include="Assets\Scripts\AppScripts\MadahShop\Upgrades\UpgradeSO.cs" />
     <Compile Include="Assets\Scripts\AppScripts\MadahShop\Upgrades\ShopItemUI.cs" />
+    <Compile Include="Assets\Scripts\AppScripts\EyeControl\ApplicationCommand.cs" />
     <Compile Include="Assets\Scripts\AppScripts\SystemDevices\SystemDevices.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\EyeControl.cs" />
     <Compile Include="Assets\Scripts\SoScripts\AppSO.cs" />
