@@ -1,10 +1,13 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GlitchManager : MonoBehaviour
 {
     public SystemDevices systemDevices;
     public Jenuve jenuve;
+    public Ghost ghost;
+
     public PopupManager popupManager;
 
     public bool isFreezeActive = false;
@@ -12,9 +15,14 @@ public class GlitchManager : MonoBehaviour
 
     public void GlitchTimedEvent()
     {
+        systemDevices = GameManager.Instance.systemDevices;
+        jenuve = GameManager.Instance.jenuve;
+        ghost = GameManager.Instance.ghost;
+
+
         if (!isFreezeActive)
         {
-            int randomAction = Random.Range(0, 2);
+            int randomAction = Random.Range(0, 3);
 
             switch (randomAction)
             {
@@ -27,6 +35,11 @@ public class GlitchManager : MonoBehaviour
                 case 1: // Jenuve
                     popupManager.ShowPopup(AppNames.Jenuve);
                     jenuve.JenuveGlitch();
+                    break;
+
+                case 2: // Ghost
+                    popupManager.ShowPopup(AppNames.Ghost);
+                    ghost.GhostGlitch();
                     break;
             }
         }

@@ -10,10 +10,12 @@ public class Ghost : MonoBehaviour
     [Header("Settings per Difficulty (Easy=0, Medium=1, Hard=2, Crazy=3)")]
     public float[] maxMeters = new float[4];        // Max waarde van de meter
     public float[] durationSeconds = new float[4];  // Hoeveel seconden tot max 
+    public float[] glitchAmounts = new float[4];     // Hoeveel de meter wordt tidjens een glitch
 
     private float maxMeter;
     private float currentMeter;
     private float decayRate;
+    private float glitchAmount;
     private Difficulties currentDifficulty;
     private Coroutine gameCoroutine;
     private bool gameActive = false;
@@ -60,6 +62,15 @@ public class Ghost : MonoBehaviour
     public void DialRotated(float rotationAmount)
     {
         currentMeter -= rotationAmount * 0.1f; // Pas factor aan om snelheid te balancen
+        currentMeter = Mathf.Clamp(currentMeter, 0f, maxMeter);
+        silenceMeter.value = currentMeter / maxMeter;
+    }
+
+    public void GhostGlitch()
+    {
+        glitchAmount = glitchAmounts[(int)currentDifficulty];
+
+        currentMeter = glitchAmount;
         currentMeter = Mathf.Clamp(currentMeter, 0f, maxMeter);
         silenceMeter.value = currentMeter / maxMeter;
     }

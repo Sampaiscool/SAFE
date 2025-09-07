@@ -2817,7 +2817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &326531973
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10125,6 +10125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   systemDevices: {fileID: 937431745}
   jenuve: {fileID: 488730007}
+  ghost: {fileID: 0}
   popupManager: {fileID: 1522707514}
   isFreezeActive: 0
 --- !u!1 &1140771943
@@ -10556,7 +10557,7 @@ RectTransform:
   m_Father: {fileID: 1706920729}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -13106,8 +13107,11 @@ MonoBehaviour:
   sessionManager: {fileID: 940213819}
   systemDevices: {fileID: 937431745}
   madahShop: {fileID: 1926787087}
+  ghost: {fileID: 1659048586}
   EyeControl: {fileID: 43615146}
   Notes: {fileID: 1796113420}
+  jenuve: {fileID: 488730007}
+  kFlipped: {fileID: 655292425}
   CurrentControl: 0
   LostDueTo: 0
   isNewGame: 1
@@ -13408,7 +13412,7 @@ RectTransform:
   m_Father: {fileID: 605072122}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 14.977, y: 0}
   m_SizeDelta: {x: 49.954, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -13582,7 +13586,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Silence of the Ghosts
+  m_text: Ghost
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3882a17b979e7634f8f64762b427e61d, type: 2}
   m_sharedMaterial: {fileID: 3093583101180796273, guid: 3882a17b979e7634f8f64762b427e61d, type: 2}
@@ -16011,6 +16015,11 @@ MonoBehaviour:
   - 210
   - 180
   - 120
+  glitchAmounts:
+  - 0
+  - 0
+  - 0
+  - 0
 --- !u!1 &1665767952
 GameObject:
   m_ObjectHideFlags: 0

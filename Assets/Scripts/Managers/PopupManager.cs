@@ -45,6 +45,10 @@ public class PopupManager : MonoBehaviour
         {
             popupButton.onClick.AddListener(() => appManager.OpenJenuve());
         }
+        else if (glitchedPopupName == AppNames.Ghost)
+        {
+            popupButton.onClick.AddListener(() => appManager.OpenGhost());
+        }
     }
 
     /// <summary>

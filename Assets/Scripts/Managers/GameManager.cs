@@ -40,8 +40,11 @@ public class GameManager : MonoBehaviour
     public SessionManager sessionManager;
     public SystemDevices systemDevices;
     public MadahShop madahShop;
+    public Ghost ghost;
     public EyeControl EyeControl;
     public Notes Notes;
+    public Jenuve jenuve;
+    public GridFlip kFlipped;
 
     /// <summary>
     /// Enum to track the current control being used in the game.
@@ -132,6 +135,9 @@ public class GameManager : MonoBehaviour
             madahShop = FindObjectOfType<MadahShop>();
             EyeControl = FindObjectOfType<EyeControl>();
             Notes = FindObjectOfType<Notes>();
+            jenuve = FindObjectOfType<Jenuve>();
+            kFlipped = FindObjectOfType<GridFlip>();
+            ghost = FindObjectOfType<Ghost>();
 
             Debug.Log("GameManager re-linked scene references!");
         }
