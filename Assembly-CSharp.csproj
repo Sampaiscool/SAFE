@@ -84,6 +84,8 @@
     <Compile Include="Assets\Scripts\Managers\PopupManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Enums\AppNames.cs" />
+    <Compile Include="Assets\Scripts\AppScripts\Ghost\Ghost.cs" />
+    <Compile Include="Assets\Scripts\AppScripts\Ghost\DialController.cs" />
     <Compile Include="Assets\Scripts\Managers\MenuUIManager.cs" />
     <Compile Include="Assets\Scripts\Managers\DeathUIManager.cs" />
     <Compile Include="Assets\Scripts\AppScripts\Notes\Notes.cs" />

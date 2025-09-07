@@ -14,8 +14,10 @@ public class EyeControl : MonoBehaviour
     public ScrollRect scrollRect;
     public RectTransform contentRectTransform;
 
+    //Location and navigation
     public LocationData startLocation;
     public LocationData currentLocation;    // The currently selected location
+    Stack<LocationData> locationHistory = new Stack<LocationData>();
 
     public ItemSO[] items; // List of items available in the Eye Center
 
@@ -197,6 +199,7 @@ public class EyeControl : MonoBehaviour
             commandHistory += locationString + "location list - List all locations and sub-locations.\n";
             commandHistory += locationString + "enter location [location_name] - go to location\n";
             commandHistory += locationString + "check heat - Shows you the current heat of the PC\n";
+            commandHistory += locationString + "location back - go back a location\n";
             commandHistory += locationString + "zero - return to the C location\n\n";
 
             if (currentLocation.locationName == "Applications")
@@ -265,6 +268,10 @@ public class EyeControl : MonoBehaviour
             currentLocation = startLocation;
             locationString = "C:> ";
             commandHistory += locationString + "Location back to zero\n";
+        }
+        else if (command.ToLower() == "location back")
+        {
+            GoBack();
         }
         else if (currentLocation.locationName == "Applications")
         {
@@ -468,18 +475,31 @@ public class EyeControl : MonoBehaviour
 
             if (subLocation != null)
             {
-                parentLocation = currentLocation;
+                locationHistory.Push(currentLocation);
                 currentLocation = subLocation;
 
                 commandHistory += locationString + "Entering sub-location: " + currentLocation.locationName + "\n";
-
-                // Remove the trailing space before adding the new location to the path
                 locationString = locationString.Trim() + currentLocation.locationName + "> ";
-
             }
             else
             {
                 commandHistory += locationString + "Sub-location not found.\n";
+            }
+
+            ScrollToBottom();
+        }
+
+        void GoBack()
+        {
+            if (locationHistory.Count > 0)
+            {
+                currentLocation = locationHistory.Pop();
+                commandHistory += locationString + "Going back to: " + currentLocation.locationName + "\n";
+                locationString = currentLocation.locationName + "> ";
+            }
+            else
+            {
+                commandHistory += locationString + "No previous location to go back to.\n";
             }
 
             ScrollToBottom();

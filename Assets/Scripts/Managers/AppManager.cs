@@ -9,6 +9,7 @@ public class AppManager : MonoBehaviour
     public GameObject NotesPanel;
     public GameObject KFlippedPanel;
     public GameObject MadahsShopPanel;
+    public GameObject GhostPanel;
 
     // This method is called to open the app
     public void OpenApp(AppSO appData, AppNames AppName)
@@ -36,6 +37,9 @@ public class AppManager : MonoBehaviour
             case AppNames.MadahsShop:
                 OpenMadahsShop();
                 break;
+            case AppNames.Ghost:
+                OpenGhost();
+                break;
             default:
                 Debug.LogWarning("AppManager Could not find the App Name");
                 break;
@@ -50,6 +54,7 @@ public class AppManager : MonoBehaviour
         NotesPanel.SetActive(false);
         KFlippedPanel.SetActive(false);
         MadahsShopPanel.SetActive(false);
+        GhostPanel.SetActive(false);
     }
 
     public void OpenEyemanager()
@@ -163,5 +168,21 @@ public class AppManager : MonoBehaviour
         CloseOtherApps();
         // Disable the MadahsShop panel
         MadahsShopPanel.SetActive(false);
+    }
+    public void OpenGhost()
+    {
+        GameManager.Instance.CurrentControl = AppNames.Ghost;
+        Debug.Log("Opening Ghost");
+        CloseOtherApps();
+        // Enable the Ghost panel
+        GhostPanel.SetActive(true);
+    }
+    public void CloseGhost()
+    {
+        GameManager.Instance.CurrentControl = AppNames.None;
+        Debug.Log("Closing Ghost");
+        CloseOtherApps();
+        // Disable the Ghost panel
+        GhostPanel.SetActive(false);
     }
 }

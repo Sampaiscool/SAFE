@@ -18,4 +18,5 @@ public enum AppNames
     K_Flipped,
     MadahsShop,
     FirewallMinigame,
+    Ghost,
 }
