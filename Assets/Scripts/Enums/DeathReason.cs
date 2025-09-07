@@ -9,4 +9,5 @@ public enum DeathReason
     Jenuve_IncorrectCell,
     Jenuve_GlitchMiniGameFailed,
     KFlipped_NotFinished,
+    Debug_Death,
 }

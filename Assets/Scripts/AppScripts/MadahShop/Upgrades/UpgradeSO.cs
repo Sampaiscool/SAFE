@@ -13,10 +13,14 @@ public class UpgradeSO : ScriptableObject
     [Header("No Glitch Time Settings")]
     public float freezeDuration;  // how long glitches stay frozen
 
+    [Header("Stop Ghost Time Settings")]
+    public float stopDuration;    // how long the ghost is stopped
+
     public enum UpgradeType
     {
         NoGlitchTime,
         InstantSolveKFlipped,
-        OpenAllApplications,
+        StopGhost,
+        ExtraLife,
     }
 }

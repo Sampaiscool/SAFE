@@ -1,43 +1,54 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Singleton Instance
+    // --------------------- Singleton ---------------------
     public static GameManager Instance { get; private set; }
 
-    public float currentTimeInSeconds = 12 * 3600f; // Start time at 12:00 in seconds (12 * 3600)
-    public float timeIncrement = 60f; // Increment time by 1 minute (60 seconds)
+    // --------------------- Time System ---------------------
+    [Header("Time Settings")]
+    public float currentTimeInSeconds = 12 * 3600f; // Start at 12:00 (in seconds)
+    public float timeIncrement = 60f;               // Increment time by 1 min (60s)
 
+    // --------------------- Heat System ---------------------
+    [Header("Heat Settings")]
     public int minimalHeat = 30;
     public int currentHeat;
     public int maxHeat = 100;
+
+    // --------------------- Economy ---------------------
+    [Header("Economy Settings")]
     public int startCoins;
     public int currentCoins;
 
-    /// <summary>
-    /// Enum to represent the current difficulty level of the game.
-    /// </summary>
+    // --------------------- Difficulty ---------------------
+    [Header("Difficulty Settings")]
     public Difficulties difficulty = Difficulties.Medium;
     private float eventInterval;
 
-    /// <summary>
-    /// Code the player needs to add in exit.exe to win the game.
-    /// </summary>
-    public string exitCode = "";  // To hold the entire exit.exe code (20 characters)
-
-    // Define the characters to be used in the exit code (Uppercase, lowercase, numbers)
+    // --------------------- Exit Code ---------------------
+    [Header("Exit.exe Code")]
+    public string exitCode = "";  // Player’s winning code (20 chars)
     private string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    // Array to hold all your ApplicationData instances (predefined)
+    // --------------------- Applications ---------------------
+    [Header("Applications")]
     public ApplicationData[] allApplications;
     public Dictionary<ApplicationData, string> SessionNames = new Dictionary<ApplicationData, string>();
 
-
+    // --------------------- Core Managers ---------------------
+    [Header("Managers & Systems")]
     public GlitchManager glitchManager;
     public SessionManager sessionManager;
+    public SettingsManager settingsManager;
+    public AudioManager audioManager;
+
+    // --------------------- Apps & Minigames ---------------------
+    [Header("Apps & Minigames")]
     public SystemDevices systemDevices;
     public MadahShop madahShop;
     public Ghost ghost;
@@ -46,13 +57,10 @@ public class GameManager : MonoBehaviour
     public Jenuve jenuve;
     public GridFlip kFlipped;
 
-    /// <summary>
-    /// Enum to track the current control being used in the game.
-    /// </summary>
+    // --------------------- Game State ---------------------
+    [Header("Game State")]
     public AppNames CurrentControl = AppNames.None;
     public DeathReason LostDueTo = DeathReason.None;
-
-    // Flag to track if the game is new
     public bool isNewGame = true;
 
     // Called on the first frame when the object is created
@@ -125,12 +133,28 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CurrentControl = AppNames.None;
+
+            settingsManager.ToggleSettings();
+        }
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "GameScene")
         {
+            // --- Managers ---
             glitchManager = FindObjectOfType<GlitchManager>();
             sessionManager = FindObjectOfType<SessionManager>();
+            settingsManager = FindObjectOfType<SettingsManager>();
+            audioManager = FindObjectOfType<AudioManager>();
+
+            // --- Apps ---
             systemDevices = FindObjectOfType<SystemDevices>();
             madahShop = FindObjectOfType<MadahShop>();
             EyeControl = FindObjectOfType<EyeControl>();
@@ -241,7 +265,7 @@ public class GameManager : MonoBehaviour
 
     public void TimedEvent()
     {
-        glitchManager.GlitchTimedEvent();
+        glitchManager.GlitchTimedEvent(null);
     }
 
     public void HeatChange(int amount)
@@ -303,6 +327,9 @@ public class GameManager : MonoBehaviour
             case DeathReason.KFlipped_NotFinished:
                 Debug.Log("Player lost due to not finishing the KFlipped minigame.");
                 break;
+            case DeathReason.Debug_Death:
+                Debug.Log("Player lost due to debug death.");
+                break;
         }
     }
     public void StopAllGameSystems()
@@ -314,10 +341,29 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Player has reset the game after death");
 
-        // Reset coins/heat/time
+        // Reset coins/heat/time/difficulty
+        difficulty = PlayerSettings.chosenDifficulty;
         currentHeat = minimalHeat;
         currentTimeInSeconds = 12 * 3600f;
-        currentCoins = 0;
+        
+        switch (difficulty)
+        {
+            case Difficulties.Easy:
+                currentCoins = 20;
+                break;
+            case Difficulties.Medium:
+                currentCoins = 15;
+            break;
+            case Difficulties.Hard:
+                currentCoins = 10;
+                break;
+            case Difficulties.Crazy:
+                currentCoins = 0;
+                break;
+            default:
+                break;
+        }
+
         LostDueTo = DeathReason.None;
 
         // Reset unlocked apps
@@ -328,6 +374,7 @@ public class GameManager : MonoBehaviour
         GenerateExitCode();
 
         // Restart systems
+        SetEventInterval();
         StartClock();
         InvokeRepeating("TimedEvent", eventInterval, eventInterval);
     }

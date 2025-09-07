@@ -58,7 +58,8 @@ public class MadahShop : MonoBehaviour
             case UpgradeSO.UpgradeType.InstantSolveKFlipped:
                 KFlipped.InstantSolveOneRound();
                 break;
-            case UpgradeSO.UpgradeType.OpenAllApplications:
+            case UpgradeSO.UpgradeType.StopGhost:
+                GameManager.Instance.ghost.FreezeForDuration(upgrade.stopDuration);
 
                 break;
         }

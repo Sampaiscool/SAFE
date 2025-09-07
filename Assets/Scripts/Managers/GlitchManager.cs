@@ -13,7 +13,7 @@ public class GlitchManager : MonoBehaviour
     public bool isFreezeActive = false;
     private Coroutine freezeRoutine;
 
-    public void GlitchTimedEvent()
+    public void GlitchTimedEvent(int? glitchIndex)
     {
         systemDevices = GameManager.Instance.systemDevices;
         jenuve = GameManager.Instance.jenuve;
@@ -22,7 +22,17 @@ public class GlitchManager : MonoBehaviour
 
         if (!isFreezeActive)
         {
-            int randomAction = Random.Range(0, 3);
+            int? randomAction;
+
+            if (glitchIndex != null)
+            {
+                randomAction = glitchIndex;
+            }
+            else
+            {
+                randomAction = Random.Range(0, 3);
+            }
+                
 
             switch (randomAction)
             {

@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Enums\Difficulties.cs" />
     <Compile Include="Assets\Scripts\Classes\PlayerSettings.cs" />
     <Compile Include="Assets\Scripts\AppScripts\Jenuve\Jenuve.cs" />
+    <Compile Include="Assets\Scripts\Managers\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Managers\SessionManager.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\ItemSO.cs" />
     <Compile Include="Assets\Scripts\AppScripts\ResizableWindow.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\ApplicationData.cs" />
     <Compile Include="Assets\Scripts\AppScripts\KFlipped\KFlipped.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\FirewallGame\FallingBlock.cs" />
+    <Compile Include="Assets\Scripts\Managers\SettingsManager.cs" />
     <Compile Include="Assets\Scripts\Managers\PopupManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Enums\AppNames.cs" />

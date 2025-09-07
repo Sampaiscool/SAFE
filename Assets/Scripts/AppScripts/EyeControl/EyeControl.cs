@@ -49,7 +49,6 @@ public class EyeControl : MonoBehaviour
     void Start()
     {
         currentLocation = startLocation;
-        closeButton.onClick.AddListener(CloseApp);
 
         ResetApp();
         SetUpScrollContent();
@@ -436,7 +435,6 @@ public class EyeControl : MonoBehaviour
                 string itemName = command.Substring(20).Trim();
                 ConnectInformation(itemName, "item");
             }
-
         }
         else if (currentLocation.locationName == "Security")
         {
@@ -625,11 +623,6 @@ public class EyeControl : MonoBehaviour
         Canvas.ForceUpdateCanvases();
     }
 
-    void CloseApp()
-    {
-        gameObject.SetActive(false);
-    }
-
     private IEnumerator BlinkCursor()
     {
         while (true)
@@ -675,12 +668,19 @@ public class EyeControl : MonoBehaviour
 
             // Proceed to mini-game if hacking is successful
             commandHistory += locationString + "Initiating mini-game to extract the code...\n";
+
+            ScrollToBottom();
+
+            yield return new WaitForSeconds(1);
+
             StartMiniGame();
         }
         else
         {
             commandHistory += locationString + "System failure! Connection lost.\n";
             commandHistory += locationString + "Try again\n";
+
+            ScrollToBottom();
         }
     }
 

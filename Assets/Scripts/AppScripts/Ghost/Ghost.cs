@@ -20,6 +20,8 @@ public class Ghost : MonoBehaviour
     private Coroutine gameCoroutine;
     private bool gameActive = false;
 
+    private Coroutine GhostStopRoutine;
+
     void Start()
     {
         StartGame();
@@ -73,6 +75,21 @@ public class Ghost : MonoBehaviour
         currentMeter = glitchAmount;
         currentMeter = Mathf.Clamp(currentMeter, 0f, maxMeter);
         silenceMeter.value = currentMeter / maxMeter;
+    }
+
+    public void FreezeForDuration(float duration)
+    {
+        if (GhostStopRoutine != null)
+            StopCoroutine(GhostStopRoutine);
+
+        GhostStopRoutine = StartCoroutine(FreezeRoutine(duration));
+    }
+
+    private IEnumerator FreezeRoutine(float duration)
+    {
+        gameActive = false;
+        yield return new WaitForSeconds(duration);
+        gameActive = true;
     }
 
     private void GameOver()

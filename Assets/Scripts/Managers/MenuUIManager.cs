@@ -23,10 +23,15 @@ public class MenuUIManager : MonoBehaviour
             GameManager.Instance.ResetGame();
             GameManager.Instance.isNewGame = true;
 
+            // Load your game scene after selecting
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+        }
+        else
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
         }
 
-        // Load your game scene after selecting
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+        
 
         
     }

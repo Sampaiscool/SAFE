@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DeathUIManager : MonoBehaviour
 {
@@ -26,6 +27,14 @@ public class DeathUIManager : MonoBehaviour
         else if (GameManager.Instance.LostDueTo == DeathReason.KFlipped_NotFinished)
         {
             DeathReasonText.text = "Player lost due to not finishing the KFlipped minigame.";
+        }
+        else if (GameManager.Instance.LostDueTo == DeathReason.Debug_Death)
+        {
+            DeathReasonText.text = "Player lost due to debug death.";
+        }
+        else
+        {
+            DeathReasonText.text = "Player lost due to unknown reason.";
         }
     }
 
