@@ -2,6 +2,7 @@
 Library/
 Temp/
 Obj/
+Logs/
 Build/
 BuildSettings/
 UserSettings/
