@@ -255,6 +255,12 @@ public class EyeControl : MonoBehaviour
         }
         else if (command.ToLower().StartsWith("enter location"))
         {
+            if (command.Length <= 15)
+            {
+                commandHistory += locationString + "Please specify a location name.\n";
+                return;
+            }
+
             string subLocationName = command.Substring(15).Trim();
             GoToSubLocation(subLocationName);
         }
@@ -291,12 +297,23 @@ public class EyeControl : MonoBehaviour
             }
             else if (command.ToLower().StartsWith("connect information"))
             {
+                if (command.Length <= 20)
+                {
+                    commandHistory += locationString + "Please specify an application name.\n";
+                    return;
+                }
+
                 string applicationName = command.Substring(20).Trim();
                 ConnectInformation(applicationName, "application");
                 ScrollToBottom();
             }
             else if (command.ToLower().StartsWith("decode unlock"))
             {
+                if (command.Length <= 14)
+                {
+                    commandHistory += locationString + "Please specify an application name and/or ID.\n";
+                    return;
+                }
                 // Split the command into parts
                 string[] parts = command.Split(' ');
 
@@ -316,6 +333,12 @@ public class EyeControl : MonoBehaviour
             }
             else if (command.ToLower().StartsWith("open application"))
             {
+                if (command.Length <= 17)
+                {
+                    commandHistory += locationString + "Please specify an application name.\n";
+                    return;
+                }
+
                 string subLocationName = command.Substring(17).Trim();
 
                 ApplicationData app = currentLocation.availableApplications.Find(a => a.applicationName.ToLower() == subLocationName.ToLower());
@@ -329,6 +352,10 @@ public class EyeControl : MonoBehaviour
                     commandHistory += locationString + app.applicationName + " is locked\n";
                 }
 
+            }
+            else
+            {
+                commandHistory += locationString + "Command not recognized.\n";
             }
         }
         else if (currentLocation.applicationRef != null)
@@ -361,6 +388,10 @@ public class EyeControl : MonoBehaviour
                         commandHistory += locationString + "Something went wrong :(\n";
                     }
                 }
+                else
+                {
+                    commandHistory += locationString + "Command not recognized.\n";
+                }
             }
             else if (GameManager.Instance.SessionNames[currentLocation.applicationRef] == "Application2")
             {
@@ -389,6 +420,10 @@ public class EyeControl : MonoBehaviour
                     {
                         commandHistory += locationString + "Something went wrong :(\n";
                     }
+                }
+                else
+                {
+                    commandHistory += locationString + "Command not recognized.\n";
                 }
             }
             else if (GameManager.Instance.SessionNames[currentLocation.applicationRef] == "Application3")
@@ -419,6 +454,10 @@ public class EyeControl : MonoBehaviour
                         commandHistory += locationString + "Something went wrong :(\n";
                     }
                 }
+                else
+                {
+                    commandHistory += locationString + "Command not recognized.\n";
+                }
             }
         }
         else if (currentLocation.locationName == "EYE-CENTER")
@@ -432,8 +471,17 @@ public class EyeControl : MonoBehaviour
             }
             else if (command.ToLower().StartsWith("connect information"))
             {
+                if (command.Length <= 17)
+                {
+                    commandHistory += locationString + "Please specify an iten name.\n";
+                    return;
+                }
                 string itemName = command.Substring(20).Trim();
                 ConnectInformation(itemName, "item");
+            }
+            else
+            {
+                commandHistory += locationString + "Command not recognized.\n";
             }
         }
         else if (currentLocation.locationName == "Security")
@@ -443,6 +491,10 @@ public class EyeControl : MonoBehaviour
                 FirewallObject.SetActive(true);
                 GameManager.Instance.CurrentControl = AppNames.FirewallMinigame;
                 FirewallBreakScript.StartGame();
+            }
+            else
+            {
+                commandHistory += locationString + "Command not recognized.\n";
             }
         }
         else

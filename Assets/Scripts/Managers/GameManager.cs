@@ -288,13 +288,15 @@ public class GameManager : MonoBehaviour
         if (IsPurchase == true)
         {
             currentCoins -= amount;
+            madahShop.UpdateCoinText(-amount);
         }
         else
         {
             currentCoins += amount;
+            madahShop.UpdateCoinText(+amount);
         }
 
-        madahShop.UpdateCoinText();
+        
     }
 
     public void ResetHeat()

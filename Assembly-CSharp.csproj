@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\AppScripts\KFlipped\KFlipped.cs" />
     <Compile Include="Assets\Scripts\AppScripts\EyeControl\FirewallGame\FallingBlock.cs" />
     <Compile Include="Assets\Scripts\Managers\SettingsManager.cs" />
+    <Compile Include="Assets\Scripts\AppScripts\MadahShop\FloatingText.cs" />
     <Compile Include="Assets\Scripts\Managers\PopupManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Enums\AppNames.cs" />

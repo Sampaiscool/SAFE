@@ -9,14 +9,22 @@ public class MadahShop : MonoBehaviour
     public GameObject shopItemPrefab; 
     public Transform contentParent;
     public TMP_Text CurrentCoinsText;
-    public GridFlip KFlipped;
-    
-    public GlitchManager glitchManager;
 
+    public GameObject floatingTextPrefab; // prefab met een TMP text
+    public Transform floatingTextSpawnPoint; // waar de tekst spawnt (bv. naast je coin UI)
+
+    private float passivegainInterval = 15f;
 
     void Start()
     {
         PopulateShop();
+
+        InvokeRepeating("PassiveCoinGain", passivegainInterval, passivegainInterval);
+    }
+
+    public void PassiveCoinGain()
+    {
+        GameManager.Instance.CoinsChange(1, false);
     }
 
     void PopulateShop()
@@ -31,9 +39,23 @@ public class MadahShop : MonoBehaviour
             ui.Setup(upgrade, TryPurchase);
         }
     }
-    public void UpdateCoinText()
+    public void UpdateCoinText(int changeAmount)
     {
-        CurrentCoinsText.text = "Coins: " + GameManager.Instance.currentCoins.ToString();
+        // Update de main counter
+        CurrentCoinsText.text = "Coins: " + GameManager.Instance.currentCoins;
+
+        // Spawn het kleine effectje
+        if (floatingTextPrefab != null)
+        {
+            GameObject ft = Instantiate(floatingTextPrefab, floatingTextSpawnPoint.position, Quaternion.identity, floatingTextSpawnPoint);
+
+            TextMeshProUGUI tmp = ft.GetComponent<TextMeshProUGUI>();
+            if (tmp != null)
+            {
+                tmp.text = (changeAmount >= 0 ? "+" : "") + changeAmount.ToString();
+                tmp.color = changeAmount >= 0 ? Color.green : Color.red;
+            }
+        }
     }
 
     void TryPurchase(UpgradeSO upgrade)
@@ -53,10 +75,10 @@ public class MadahShop : MonoBehaviour
         switch (upgrade.type)
         {
             case UpgradeSO.UpgradeType.NoGlitchTime:
-                glitchManager.FreezeForDuration(upgrade.freezeDuration);
+                GameManager.Instance.glitchManager.FreezeForDuration(upgrade.freezeDuration);
                 break;
             case UpgradeSO.UpgradeType.InstantSolveKFlipped:
-                KFlipped.InstantSolveOneRound();
+                GameManager.Instance.kFlipped.InstantSolveOneRound();
                 break;
             case UpgradeSO.UpgradeType.StopGhost:
                 GameManager.Instance.ghost.FreezeForDuration(upgrade.stopDuration);

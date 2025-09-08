@@ -12,6 +12,16 @@ public class SettingsManager : MonoBehaviour
 
     public bool IsSettingsOpen = false;
 
+    void Start()
+    {
+        // Laad volume (standaard 1f = 100%)
+        float savedVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
+
+        // Zet slider en audio gelijk
+        volumeSlider.value = savedVolume;
+        GameManager.Instance.audioManager.audioSource.volume = savedVolume;
+    }
+
     public void ToggleSettings()
     {
         if (IsSettingsOpen)
@@ -37,7 +47,14 @@ public class SettingsManager : MonoBehaviour
     }
     public void ChangeVolume()
     {
-        GameManager.Instance.audioManager.audioSource.volume = volumeSlider.value;
+        float volume = volumeSlider.value;
+
+        // Pas volume aan
+        GameManager.Instance.audioManager.audioSource.volume = volume;
+
+        // Sla waarde op
+        PlayerPrefs.SetFloat("MasterVolume", volume);
+        PlayerPrefs.Save();
     }
 
     public void DebugDeath()
