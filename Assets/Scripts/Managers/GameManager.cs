@@ -83,6 +83,11 @@ public class GameManager : MonoBehaviour
         {
             sessionManager.StartNewSession();
             sessionManager.InitializeApplicationsForGame();
+
+            sessionManager.ResetPorts();
+            sessionManager.GeneratePorts();
+            
+
             // Reset unlocked applications at the start of a new game
             ResetAllUnlockedApplications();
             isNewGame = false; // Ensure this only happens once
@@ -331,6 +336,9 @@ public class GameManager : MonoBehaviour
                 break;
             case DeathReason.Debug_Death:
                 Debug.Log("Player lost due to debug death.");
+                break;
+            case DeathReason.Firewall_Failed:
+                Debug.Log("Player lost due to losing to the Firewall");
                 break;
         }
     }

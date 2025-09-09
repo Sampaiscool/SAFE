@@ -10,4 +10,5 @@ public enum DeathReason
     Jenuve_GlitchMiniGameFailed,
     KFlipped_NotFinished,
     Debug_Death,
+    Firewall_Failed,
 }

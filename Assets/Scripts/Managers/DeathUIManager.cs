@@ -32,6 +32,10 @@ public class DeathUIManager : MonoBehaviour
         {
             DeathReasonText.text = "Player lost due to debug death.";
         }
+        else if (GameManager.Instance.LostDueTo == DeathReason.Firewall_Failed)
+        {
+            DeathReasonText.text = "Player lost due to failing the firewall challenge.";
+        }
         else
         {
             DeathReasonText.text = "Player lost due to unknown reason.";

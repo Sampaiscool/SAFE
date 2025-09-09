@@ -228,9 +228,14 @@ public class EyeControl : MonoBehaviour
             else if (currentLocation.locationName == "Security")
             {
                 commandHistory += locationString + "Security Commands:\n\n";
-                commandHistory += locationString + "breach firewall - try to break the firewall\n";
             }
-            ScrollToBottom();
+            else if (currentLocation.locationName == "Ports")
+            {
+                commandHistory += locationString + "Ports Commands:\n\n";
+                commandHistory += locationString + "scan ports - shows you the available port\n";
+                commandHistory += locationString + "inject packet [IP] - Injects the IP.\n";
+            }
+                ScrollToBottom();
         }
         else if (command.ToLower() == "intro")
         {
@@ -486,11 +491,35 @@ public class EyeControl : MonoBehaviour
         }
         else if (currentLocation.locationName == "Security")
         {
-            if (command.ToLower() == "breach firewall")
+
+        }
+        else if (currentLocation.locationName == "Ports")
+        {
+            if (command.ToLower() == "scan ports")
             {
-                FirewallObject.SetActive(true);
-                GameManager.Instance.CurrentControl = AppNames.FirewallMinigame;
-                FirewallBreakScript.StartGame();
+                StartCoroutine(ScanPortsCoroutine());
+            }
+            else if (command.ToLower().StartsWith("inject packet"))
+            {
+                string[] parts = command.Split(' ');
+                if (parts.Length < 3)
+                {
+                    commandHistory += "Usage: inject packet [ip]\n";
+                }
+                else
+                {
+                    string targetIp = parts[2];
+
+                    if (!GameManager.Instance.sessionManager.SessionPorts.Contains(targetIp))
+                    {
+                        commandHistory += $"Packet {targetIp} not found in scanned ports.\n";
+                    }
+                    else
+                    {
+                        bool success = (targetIp == GameManager.Instance.sessionManager.CorrectPort);
+                        StartCoroutine(HandleInjection(success));
+                    }
+                }
             }
             else
             {
@@ -821,14 +850,10 @@ public class EyeControl : MonoBehaviour
                 yield return new WaitForSeconds(1f);
             }
 
-            commandHistory += locationString + "Breach successful.\n";
-            commandHistory += locationString + "Generating part of Exit.exe code...\n";
+            commandHistory += locationString + "Ports safe\n";
+            commandHistory += locationString + "Try another port\n";
 
-            string exitcode1 = GameManager.Instance.GetExitCodePart(8, 3);
-
-            GameManager.Instance.Notes.AddNoteWithText("Exit.exe Code Part: 4 - " + exitcode1);
-
-            commandHistory += locationString + "4 - " + exitcode1 + "\n";
+            ScrollToBottom();
         }
         else
         {
@@ -839,11 +864,104 @@ public class EyeControl : MonoBehaviour
                 yield return new WaitForSeconds(1f);
             }
 
-            commandHistory += locationString + "Breach Failed\n";
-            commandHistory += locationString + "Try Again.\n";
+            GameManager.Instance.PlayerLost(DeathReason.Firewall_Failed);
         }
 
         ScrollToBottom();
+    }
+    private IEnumerator ScanPortsCoroutine()
+    {
+        commandHistory += "Scanning...\n";
+
+        int portNumber = 1;
+
+        foreach (var port in GameManager.Instance.sessionManager.SessionPorts)
+        {
+            yield return new WaitForSeconds(0.2f); // kleine stop (0.2s per port)
+            commandHistory += portNumber + " - " + port + "\n";
+
+            ScrollToBottom();
+
+            portNumber++;
+        }
+
+        commandHistory += "Scan complete.\n\n";
+    }
+    private IEnumerator HandleInjection(bool success)
+    {
+        string[] fakeLogs = new string[]
+{
+    "Opening secure socket...",
+    "Establishing handshake with target...",
+    "Handshake accepted [OK]",
+    "Encrypting channel with AES-256...",
+    "Generating authentication token...",
+    "Token verified.",
+    "Bypassing checksum validation...",
+    "Verifying memory address range...",
+    "Injecting payload into /system/core/packet.dll",
+    "Injecting payload into /sys/bin/firewall.sys",
+    "Allocating memory blocks...",
+    "Memory allocation [SUCCESS]",
+    "Overwriting security registry key...",
+    "Registry patch applied.",
+    "Uploading malicious packet...",
+    "Uploading fragment [1/5]...",
+    "Uploading fragment [2/5]...",
+    "Uploading fragment [3/5]...",
+    "Uploading fragment [4/5]...",
+    "Uploading fragment [5/5]...",
+    "Reconstructing payload on remote host...",
+    "Loading... [##        ] 20%",
+    "Loading... [#####     ] 50%",
+    "Loading... [#######   ] 70%",
+    "Loading... [######### ] 90%",
+    "Loading... [##########] 100%",
+    "[INFO] System response delayed...",
+    "[WARNING] Unexpected checksum mismatch, retrying...",
+    "Retry succeeded.",
+    "Setting Files.",
+    "Setting Files..",
+    "Setting Files...",
+    "Rebuilding access tables...",
+    "Adjusting kernel permissions...",
+    "Spawning backdoor process...",
+    "Process created at PID: 4521",
+    "Finalizing injection...",
+    "Cleaning traces...",
+    "Trace removal complete.",
+    "Operation complete."
+};
+
+        commandHistory = "Starting injection sequence...\n";
+
+        foreach (string log in fakeLogs)
+        {
+            commandHistory += log + "\n";
+
+            ScrollToBottom();
+
+            yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.4f)); // beetje random voor realism
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        // Succes of fail
+        if (success)
+        {
+            commandHistory += ">>> Injection successful.\n";
+            ScrollToBottom();
+            //HiddenFolder.SetActive(true);
+        }
+        else
+        {
+            commandHistory += ">>> Injection failed. Security system triggered!\n";
+
+            // Start minigame als straf
+            FirewallObject.SetActive(true);
+            GameManager.Instance.CurrentControl = AppNames.FirewallMinigame;
+            FirewallBreakScript.StartGame();
+        }
     }
 
 }

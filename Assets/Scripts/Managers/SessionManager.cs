@@ -9,6 +9,12 @@ public class SessionManager : MonoBehaviour
 
     private const string SessionKey = "CurrentSessionGenerated";
 
+    public List<string> SessionPorts = new List<string>();
+    public string CorrectPort;
+
+    private const string PortsKey = "SessionPorts";
+    private const string CorrectPortKey = "CorrectPort";
+
     public void StartNewSession()
     {
         // Check if we already generated IDs for this session
@@ -68,9 +74,53 @@ public class SessionManager : MonoBehaviour
             GameManager.Instance.SessionNames[app] = app.sessionName;
 
         }
-
-        Debug.Log("Selected Applications for this session:");
-        foreach (var app in applicationsLocation.availableApplications)
-            Debug.Log("- " + app.applicationName + " (SessionName: " + app.sessionName + ")");
     }
+    public void GeneratePorts()
+    {
+        // Als er al ports bestaan, laad die in plaats van nieuwe te maken
+        if (PlayerPrefs.HasKey(PortsKey) && PlayerPrefs.HasKey(CorrectPortKey))
+        {
+            string json = PlayerPrefs.GetString(PortsKey, "[]");
+            SessionPorts = JsonUtility.FromJson<PortListWrapper>(json).ports;
+            CorrectPort = PlayerPrefs.GetString(CorrectPortKey, "");
+            return;
+        }
+
+        // Nieuwe ports maken
+        System.Random rand = new System.Random();
+        SessionPorts.Clear();
+        for (int i = 0; i < 5; i++)
+        {
+            string ip = $"{rand.Next(0, 256)}.{rand.Next(0, 256)}.{rand.Next(0, 256)}.{rand.Next(0, 256)}";
+            SessionPorts.Add(ip);
+        }
+
+        CorrectPort = SessionPorts[rand.Next(SessionPorts.Count)];
+
+        // Opslaan in PlayerPrefs
+        PortListWrapper wrapper = new PortListWrapper { ports = SessionPorts };
+        string saveJson = JsonUtility.ToJson(wrapper);
+        PlayerPrefs.SetString(PortsKey, saveJson);
+        PlayerPrefs.SetString(CorrectPortKey, CorrectPort);
+        PlayerPrefs.Save();
+
+        Debug.Log($"Generated Ports: {string.Join(", ", SessionPorts)}");
+        Debug.Log($"Correct Port: {CorrectPort}");
+    }
+
+    // Handige functie om te resetten tijdens development
+    public void ResetPorts()
+    {
+        PlayerPrefs.DeleteKey(PortsKey);
+        PlayerPrefs.DeleteKey(CorrectPortKey);
+        PlayerPrefs.Save();
+        SessionPorts.Clear();
+        CorrectPort = "";
+    }
+}
+
+[System.Serializable]
+public class PortListWrapper
+{
+    public List<string> ports;
 }
